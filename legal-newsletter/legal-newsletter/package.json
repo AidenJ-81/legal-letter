@@ -1,0 +1,14 @@
+{
+  "name": "construction-legal-newsletter",
+  "version": "1.0.0",
+  "description": "건설 법무 뉴스레터 자동 생성 — 회사 공용 Anthropic API 프록시 포함 (의존성 없음)",
+  "private": true,
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

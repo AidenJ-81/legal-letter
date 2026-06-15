@@ -1,0 +1,2924 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>건설 법무 뉴스레터</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1a2744;
+  --navy2: #253660;
+  --gold: #c8a96e;
+  --gold2: #b8995e;
+  --green: #2d5a3d;
+  --red: #7a3030;
+  --bg: #f0ede8;
+  --card: #fff;
+  --border: #e5e0d8;
+  --text: #1a1a1a;
+  --muted: #888;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); min-height: 100vh; }
+
+/* SHELL */
+.shell { max-width: 1160px; margin: 0 auto; background: #fff; min-height: 100vh; display: flex; flex-direction: column; box-shadow: 0 0 40px rgba(0,0,0,.08); }
+
+/* HEADER */
+.hdr { background: var(--navy); padding: 0 32px; display: flex; align-items: stretch; justify-content: space-between; }
+.hdr-brand { padding: 18px 0; }
+.hdr-brand .badge { background: var(--gold); color: #fff; font-size: 9px; font-weight: 700; padding: 2px 10px; border-radius: 20px; letter-spacing: 1.5px; display: inline-block; margin-bottom: 6px; }
+.hdr-brand h1 { font-family: 'Noto Serif KR', serif; font-size: 20px; color: #fff; font-weight: 700; letter-spacing: -0.5px; }
+.hdr-brand p { font-size: 11px; color: #7a93c0; margin-top: 3px; }
+.hdr-meta { display: flex; align-items: center; gap: 20px; }
+.hdr-stat { text-align: center; padding: 0 16px; border-left: 1px solid rgba(255,255,255,.1); }
+.hdr-stat .n { font-size: 22px; font-weight: 700; color: var(--gold); font-family: 'Noto Serif KR', serif; }
+.hdr-stat .l { font-size: 10px; color: #7a93c0; margin-top: 1px; }
+.hdr-actions { display: flex; align-items: center; gap: 8px; padding: 0 0 0 16px; border-left: 1px solid rgba(255,255,255,.1); }
+
+/* STEP NAV */
+.step-nav { background: var(--navy2); display: flex; border-bottom: 1px solid rgba(255,255,255,.07); }
+.step-tab { flex: 1; background: none; border: none; color: #7a93c0; padding: 14px 10px; font-size: 12.5px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; border-bottom: 3px solid transparent; transition: all .2s; font-family: 'Noto Sans KR', sans-serif; position: relative; }
+.step-tab:hover { color: #c8d8f0; }
+.step-tab.active { color: #fff; border-bottom-color: var(--gold); }
+.step-tab .snum { width: 20px; height: 20px; border-radius: 50%; background: rgba(255,255,255,.1); font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; color: #7a93c0; transition: all .2s; }
+.step-tab.active .snum { background: var(--gold); color: #fff; }
+.step-tab.done .snum { background: var(--green); color: #fff; }
+.step-tab.done { color: #7fd4a8; }
+
+/* MAIN */
+.main { flex: 1; }
+.panel { display: none; }
+.panel.active { display: flex; flex-direction: column; }
+
+/* ── STEP 1: COLLECT ── */
+.collect-layout { display: grid; grid-template-columns: 300px 1fr; gap: 0; height: 100%; }
+
+/* KEYWORD SIDEBAR */
+.kw-sidebar { background: #f7f4ef; border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 0; min-height: 600px; }
+.kw-sidebar h3 { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 14px; display: flex; align-items: center; gap: 7px; }
+.kw-section { margin-bottom: 18px; }
+.kw-section-label { font-size: 10px; font-weight: 700; color: var(--muted); letter-spacing: .8px; text-transform: uppercase; margin-bottom: 8px; padding-bottom: 5px; border-bottom: 1px solid var(--border); }
+.kw-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.kw-chip { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 20px; font-size: 11.5px; cursor: pointer; border: 1.5px solid transparent; transition: all .15s; user-select: none; font-family: 'Noto Sans KR', sans-serif; }
+.kw-chip.judgment { background: #e8ecf5; color: var(--navy); border-color: #cdd8f0; }
+.kw-chip.judgment.selected { background: var(--navy); color: #fff; border-color: var(--navy); }
+.kw-chip.law { background: #e8f5ed; color: var(--green); border-color: #b8dfc8; }
+.kw-chip.law.selected { background: var(--green); color: #fff; border-color: var(--green); }
+.kw-chip.news { background: #fdf0f0; color: var(--red); border-color: #e8c0c0; }
+.kw-chip.news.selected { background: var(--red); color: #fff; border-color: var(--red); }
+.kw-add-row { display: flex; gap: 5px; margin-top: 10px; }
+.kw-add-row input { flex: 1; border: 1px solid var(--border); border-radius: 6px; padding: 6px 9px; font-size: 12px; background: #fff; font-family: 'Noto Sans KR', sans-serif; outline: none; }
+.kw-add-row input:focus { border-color: var(--navy); }
+.kw-select-row { display: flex; gap: 5px; margin-bottom: 8px; }
+.kw-select-row select { flex: 1; border: 1px solid var(--border); border-radius: 6px; padding: 5px 8px; font-size: 11px; background: #fff; font-family: 'Noto Sans KR', sans-serif; outline: none; color: #444; }
+
+.run-box { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border); }
+.run-info { font-size: 11px; color: var(--muted); line-height: 1.7; margin-bottom: 10px; }
+.run-info strong { color: #555; }
+.btn-run:disabled { pointer-events: none; }
+.btn-run { width: 100%; background: linear-gradient(135deg, var(--gold), #e0c080); color: #fff; border: none; border-radius: 8px; padding: 12px; font-size: 13.5px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: 'Noto Sans KR', sans-serif; transition: all .2s; box-shadow: 0 2px 12px rgba(200,169,110,.3); }
+.btn-run:hover { transform: translateY(-1px); box-shadow: 0 4px 18px rgba(200,169,110,.4); }
+.btn-run:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+/* RESULTS AREA */
+.results-area { padding: 20px; overflow-y: auto; }
+.results-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.results-toolbar h2 { font-size: 14px; font-weight: 700; color: var(--navy); }
+.filter-tabs { display: flex; gap: 5px; }
+.ftab { background: none; border: 1px solid var(--border); border-radius: 20px; padding: 4px 13px; font-size: 11.5px; color: var(--muted); cursor: pointer; font-family: 'Noto Sans KR', sans-serif; transition: all .15s; }
+.ftab.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+/* PROGRESS */
+.progress-box { background: #f5f7fc; border: 1px solid #cdd8f0; border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+.progress-title { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 12px; display: flex; align-items: center; gap: 7px; }
+.progress-steps { display: flex; flex-direction: column; gap: 8px; }
+.prog-step { display: flex; align-items: center; gap: 10px; font-size: 12px; color: #666; }
+.prog-step .ps-icon { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
+.ps-icon.waiting { background: #e8e5de; color: #aaa; }
+.ps-icon.running { background: var(--navy2); color: #fff; animation: pulse .8s infinite; }
+.ps-icon.done { background: var(--green); color: #fff; }
+.ps-icon.error { background: var(--red); color: #fff; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+.prog-bar-wrap { background: #e8e5de; border-radius: 10px; height: 4px; margin-top: 10px; overflow: hidden; }
+.prog-bar { background: linear-gradient(90deg, var(--gold), #e0c080); height: 100%; border-radius: 10px; transition: width .4s; }
+
+/* RESULT ITEM */
+.result-item { border: 1.5px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 10px; background: #fff; transition: border-color .15s; }
+.result-item:hover { border-color: #c8d0e0; }
+.result-item.selected-item { border-color: var(--gold); }
+.ri-head { padding: 12px 14px; background: #f9f7f4; display: flex; align-items: flex-start; gap: 10px; cursor: pointer; }
+.ri-head:hover { background: #f3f0eb; }
+.ri-check-wrap { margin-top: 1px; flex-shrink: 0; }
+.ri-check { width: 16px; height: 16px; accent-color: var(--gold); cursor: pointer; }
+.ri-badge { font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 10px; letter-spacing: .5px; flex-shrink: 0; margin-top: 2px; }
+.rib-j { background: #e8ecf5; color: var(--navy); }
+.rib-l { background: #e8f5ed; color: var(--green); }
+.rib-n { background: #fdf0f0; color: var(--red); }
+.ri-info { flex: 1; min-width: 0; }
+.ri-title { font-size: 13px; font-weight: 700; color: var(--navy); line-height: 1.4; margin-bottom: 4px; }
+.ri-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+.ri-tag { font-size: 10px; padding: 1px 7px; border-radius: 8px; background: #f0f0ec; color: #666; }
+.ri-kw { font-size: 10px; padding: 1px 7px; border-radius: 8px; background: #fef4e0; color: #8a5a00; }
+.ri-fallback { font-size: 10px; padding: 1px 7px; border-radius: 8px; background: #fde8e8; color: #a63232; font-weight: 600; border: 1px solid #f0c0c0; }
+/* 출처 표시줄 — 카드 최상단 강조 */
+.ri-source-bar { display: flex; align-items: center; gap: 7px; padding: 6px 14px; background: #f0f7f3; border-bottom: 1px solid #c8e0d0; font-size: 11.5px; flex-wrap: wrap; }
+.ri-source-label { font-weight: 700; color: #2d5a3d; font-size: 11px; flex-shrink: 0; }
+.ri-firm-chip { display: inline-flex; align-items: center; gap: 3px; padding: 3px 10px; border-radius: 12px; background: #2d5a3d; color: #fff; font-size: 11px; font-weight: 700; }
+.ri-firm-chip.internet { background: #1a56a0; }
+.ri-firm-chip-link { cursor: pointer; transition: opacity .15s, transform .1s; }
+.ri-firm-chip-link:hover { opacity: .82; transform: translateY(-1px); }
+/* 미리보기/뉴스레터 출처 줄 */
+.nl-source-row { display: flex; align-items: center; gap: 6px; margin: 5px 0 8px; padding: 5px 10px; background: #f0f7f3; border-radius: 6px; border-left: 3px solid #2d5a3d; font-size: 11px; flex-wrap: wrap; }
+.nl-source-label { font-weight: 700; color: #2d5a3d; }
+.nl-firm-chip { display: inline-flex; align-items: center; gap: 3px; padding: 2px 9px; border-radius: 10px; background: #2d5a3d; color: #fff; font-size: 10.5px; font-weight: 700; }
+.nl-firm-chip.internet { background: #1a56a0; }
+.fallback-banner { margin: 8px 14px 0; padding: 8px 11px; background: #fff5f0; border: 1px solid #f0c8b8; border-radius: 6px; font-size: 11px; color: #a63232; line-height: 1.6; display: flex; gap: 8px; align-items: flex-start; }
+.fallback-banner strong { color: #7a2020; }
+.ri-actions { display: flex; gap: 5px; flex-shrink: 0; }
+.icon-btn { background: none; border: none; color: #bbb; cursor: pointer; padding: 3px; border-radius: 4px; font-size: 14px; }
+.icon-btn:hover { color: var(--red); background: #fdf0f0; }
+.icon-btn.edit-btn:hover { color: var(--navy); background: #e8eef8; }
+.ri-body { padding: 14px; border-top: 1px solid var(--border); display: none; }
+.ri-body.open { display: block; }
+.ri-summary { font-size: 12.5px; color: #444; line-height: 1.8; margin-bottom: 12px; }
+.ri-summary .hl { font-weight: 700; color: var(--navy); }
+
+/* EDIT FIELDS */
+.ef { margin-bottom: 10px; }
+.ef:last-child { margin-bottom: 0; }
+.ef label { font-size: 10px; font-weight: 700; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+.ef input, .ef textarea, .ef select { width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; font-size: 12.5px; color: var(--text); background: #fafaf8; font-family: 'Noto Sans KR', sans-serif; outline: none; transition: border-color .15s; }
+.ef input:focus, .ef textarea:focus { border-color: var(--navy); background: #fff; }
+.ef textarea { resize: vertical; min-height: 64px; line-height: 1.7; }
+.ef-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.ef-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.imp-area { background: #fffbf3; border: 1px solid #e8dfc8; border-radius: 7px; padding: 12px; margin-top: 10px; }
+.imp-area label { color: var(--gold2); }
+.imp-row { display: flex; gap: 6px; margin-bottom: 6px; align-items: flex-start; }
+.imp-row textarea { flex: 1; min-height: 42px; }
+.cmp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 5px; }
+.cmp-c { border-radius: 6px; padding: 9px 11px; }
+.cmp-c.cur { background: #f5f5f0; border-left: 3px solid #aaa; }
+.cmp-c.rev { background: #f0f7f2; border-left: 3px solid var(--green); }
+.cmp-c span { font-size: 9px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+.cmp-c.cur span { color: #888; }
+.cmp-c.rev span { color: var(--green); }
+.cmp-c textarea { background: transparent; border: none; padding: 0; min-height: 50px; font-size: 12px; resize: none; }
+.cmp-c textarea:focus { border: none; }
+
+/* EMPTY / HINT */
+.hint-box { text-align: center; padding: 60px 20px; }
+.hint-box .hi { font-size: 44px; margin-bottom: 14px; }
+.hint-box h3 { font-size: 15px; color: var(--navy); font-weight: 700; margin-bottom: 8px; }
+.hint-box p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+.hint-keywords { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin-top: 14px; }
+.hint-kw { background: #f0f0ec; color: #666; font-size: 11px; padding: 3px 10px; border-radius: 12px; }
+
+/* ── STEP 2: RECIPIENTS ── */
+.recip-layout { padding: 24px 28px; }
+.r-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+.r-stat { background: #f7f4ef; border-radius: 10px; padding: 14px; text-align: center; }
+.r-stat .n { font-size: 26px; font-weight: 700; color: var(--navy); font-family: 'Noto Serif KR', serif; }
+.r-stat .l { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.r-add-card { background: #f7f4ef; border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+.r-add-card h3 { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+.r-add-row { display: grid; grid-template-columns: 1fr 1.5fr 1fr auto; gap: 8px; align-items: end; }
+.r-list { display: flex; flex-direction: column; gap: 6px; }
+.r-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: #fff; border: 1px solid var(--border); border-radius: 8px; transition: border-color .15s; }
+.r-item.active { border-color: var(--gold); background: #fffdf8; }
+.r-check { width: 16px; height: 16px; accent-color: var(--gold); cursor: pointer; flex-shrink: 0; }
+.r-name { font-size: 13px; font-weight: 700; color: var(--navy); min-width: 80px; }
+.r-email { font-size: 12px; color: #666; flex: 1; }
+.r-dept { font-size: 11px; background: #f0f0ec; color: #666; padding: 2px 9px; border-radius: 10px; }
+
+/* ── STEP 3: SEND ── */
+.send-layout { padding: 24px 28px; }
+.send-summary-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 20px; }
+.ss-card { background: #f7f4ef; border-radius: 8px; padding: 12px; text-align: center; }
+.ss-card .n { font-size: 20px; font-weight: 700; font-family: 'Noto Serif KR', serif; }
+.ss-card .l { font-size: 10px; color: var(--muted); margin-top: 1px; }
+.html-out-card { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
+.html-out-bar { background: #f7f4ef; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+.html-out-bar span { font-size: 12px; font-weight: 600; color: var(--navy); }
+.html-out-ta { font-family: 'Courier New', monospace; font-size: 11px; background: #fafaf8; border: none; height: 200px; width: 100%; padding: 14px; resize: none; color: #444; outline: none; }
+.send-guide { background: #f0f7f2; border: 1px solid #b8dfc8; border-radius: 9px; padding: 16px; font-size: 12.5px; color: var(--green); line-height: 1.9; }
+.send-guide strong { color: #1e4a2e; }
+.send-guide kbd { display: inline-block; padding: 1px 6px; font-size: 11px; font-family: 'Courier New', monospace; background: #fff; border: 1px solid #b8dfc8; border-radius: 3px; box-shadow: 0 1px 0 rgba(0,0,0,.05); }
+.send-block { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 14px; }
+.send-block-hdr { display: flex; gap: 12px; margin-bottom: 14px; }
+.send-step-no { width: 26px; height: 26px; border-radius: 50%; background: var(--navy); color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.send-step-ttl { font-size: 14px; font-weight: 700; color: var(--navy); }
+.send-step-desc { font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.5; }
+.send-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.send-field label { display: block; font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+.send-field input, .send-field textarea { width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 8px 11px; font-size: 12.5px; font-family: 'Noto Sans KR', sans-serif; outline: none; box-sizing: border-box; resize: vertical; }
+.send-field input:focus, .send-field textarea:focus { border-color: var(--navy); }
+.send-warn { margin-top: 5px; font-size: 11px; color: #a63232; background: #fff5f0; border: 1px solid #f0c8b8; padding: 6px 9px; border-radius: 5px; }
+.send-btn-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.send-ok { display: none; font-size: 12px; font-weight: 700; color: var(--green); }
+.paste-method-tabs { display: flex; gap: 6px; margin-bottom: 14px; border-bottom: 1px solid var(--border); }
+.pm-tab { background: none; border: none; padding: 8px 14px; font-size: 12px; font-weight: 600; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; font-family: 'Noto Sans KR', sans-serif; }
+.pm-tab.active { color: var(--navy); border-bottom-color: var(--gold); }
+.pm-tab:hover { color: var(--navy); }
+.paste-pane .paste-desc { font-size: 12px; color: #555; line-height: 1.7; margin-bottom: 10px; padding: 10px 13px; background: #fafaf6; border-left: 3px solid var(--gold); border-radius: 4px; }
+.paste-desc strong { color: var(--navy); }
+.rich-preview-frame { margin-top: 14px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; max-height: 400px; overflow-y: auto; background: #f7f4ef; }
+.rich-preview-label { background: #f7f4ef; padding: 6px 12px; font-size: 10px; font-weight: 600; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+.rich-preview-frame > div:last-child { padding: 8px; }
+@media (max-width: 720px) { .send-fields { grid-template-columns: 1fr; } }
+
+/* BUTTONS */
+.btn { border: none; border-radius: 7px; padding: 9px 18px; font-size: 12.5px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-family: 'Noto Sans KR', sans-serif; transition: all .15s; }
+.btn-navy { background: var(--navy); color: #fff; }
+.btn-navy:hover { background: var(--navy2); }
+.btn-gold { background: var(--gold); color: #fff; }
+.btn-gold:hover { background: var(--gold2); }
+.btn-green { background: var(--green); color: #fff; }
+.btn-green:hover { background: #3a7050; }
+.btn-ghost { background: none; border: 1px solid var(--border); color: #555; }
+.btn-ghost:hover { background: #f5f5f0; }
+.btn-sm { padding: 6px 13px; font-size: 11.5px; }
+.btn-xs { padding: 4px 10px; font-size: 11px; }
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+
+/* MODAL */
+.modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 100; overflow-y: auto; padding: 24px; align-items: flex-start; justify-content: center; }
+.modal-bg.open { display: flex; }
+.modal { background: #fff; border-radius: 12px; width: 100%; max-width: 820px; overflow: hidden; }
+.modal-hdr { background: var(--navy); padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; }
+.modal-hdr h3 { font-size: 14px; font-weight: 700; color: #fff; }
+.modal-body { padding: 20px; max-height: 80vh; overflow-y: auto; }
+
+/* TOAST */
+.toast { position: fixed; bottom: 24px; right: 24px; background: var(--navy); color: #fff; padding: 11px 18px; border-radius: 8px; font-size: 12.5px; font-weight: 500; z-index: 200; display: none; align-items: center; gap: 7px; }
+.toast.show { display: flex; }
+.toast.ok { background: var(--green); }
+.toast.err { background: var(--red); }
+
+/* API KEY SCREEN */
+.apikey-screen { display: flex; position: fixed; inset: 0; background: #f0ede8; z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
+.apikey-screen.hidden { display: none; }
+.apikey-card { background: #fff; border-radius: 16px; padding: 40px; max-width: 480px; width: 100%; box-shadow: 0 8px 40px rgba(26,39,68,.15); }
+.apikey-logo { margin-bottom: 24px; }
+.apikey-logo .badge { background: var(--gold); color: #fff; font-size: 9px; font-weight: 700; padding: 3px 12px; border-radius: 20px; letter-spacing: 1.5px; display: inline-block; margin-bottom: 8px; }
+.apikey-logo h1 { font-family: 'Noto Serif KR', serif; font-size: 22px; font-weight: 700; color: var(--navy); letter-spacing: -0.5px; }
+.apikey-logo p { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.6; }
+.apikey-form label { font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; display: block; margin-bottom: 7px; }
+.apikey-input-wrap { position: relative; margin-bottom: 10px; }
+.apikey-input-wrap input { width: 100%; border: 1.5px solid var(--border); border-radius: 8px; padding: 12px 44px 12px 14px; font-size: 13px; font-family: 'Courier New', monospace; color: var(--text); background: #fafaf8; outline: none; transition: border-color .15s; letter-spacing: .5px; }
+.apikey-input-wrap input:focus { border-color: var(--navy); background: #fff; }
+.apikey-eye { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--muted); font-size: 16px; padding: 2px; }
+.apikey-eye:hover { color: var(--navy); }
+.apikey-hint { font-size: 11px; color: var(--muted); line-height: 1.7; margin-bottom: 18px; }
+.apikey-hint a { color: var(--gold); text-decoration: none; font-weight: 600; }
+.apikey-hint a:hover { text-decoration: underline; }
+.apikey-save-row { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
+.apikey-save-row input[type="checkbox"] { width: 15px; height: 15px; accent-color: var(--gold); cursor: pointer; flex-shrink: 0; }
+.apikey-save-row label { font-size: 12px; color: #555; cursor: pointer; }
+.apikey-warn { background: #fef4e0; border: 1px solid #e8d8a0; border-radius: 7px; padding: 10px 13px; font-size: 11px; color: #7a5a00; line-height: 1.7; margin-bottom: 18px; }
+.apikey-warn strong { color: #5a3c00; }
+.btn-apikey-submit { width: 100%; background: linear-gradient(135deg, var(--navy), var(--navy2)); color: #fff; border: none; border-radius: 8px; padding: 13px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'Noto Sans KR', sans-serif; transition: all .2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.btn-apikey-submit:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(26,39,68,.25); }
+.apikey-security { display: flex; align-items: flex-start; gap: 8px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 11px; color: var(--muted); line-height: 1.65; }
+.apikey-security .si { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+/* API KEY STATUS BAR */
+.apikey-bar { background: #e8eef8; border-bottom: 1px solid #cdd8f0; padding: 7px 28px; display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; color: var(--navy2); }
+.apikey-bar .ak-info { display: flex; align-items: center; gap: 7px; }
+.apikey-bar .ak-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+.apikey-bar .ak-key { font-family: 'Courier New', monospace; font-size: 11px; color: #555; background: #fff; padding: 2px 8px; border-radius: 4px; border: 1px solid #ddd; }
+.btn-change-key { background: none; border: 1px solid #cdd8f0; border-radius: 5px; padding: 3px 10px; font-size: 11px; color: #555; cursor: pointer; font-family: 'Noto Sans KR', sans-serif; }
+.btn-change-key:hover { background: #fff; }
+
+/* PREVIEW NEWSLETTER */
+.nl { font-family: 'Noto Sans KR', sans-serif; }
+.nl-hdr { background: var(--navy); padding: 18px 22px; display: flex; justify-content: space-between; align-items: flex-end; }
+.nl-hdr-l .nlbadge { background: var(--gold); color: #fff; font-size: 9px; font-weight: 700; padding: 2px 9px; border-radius: 20px; letter-spacing: 1px; display: inline-block; margin-bottom: 5px; }
+.nl-hdr-l h2 { font-size: 17px; font-weight: 700; color: #fff; font-family: 'Noto Serif KR', serif; }
+.nl-hdr-l p { font-size: 10px; color: #8fa3cc; margin-top: 2px; }
+.nl-hdr-r { font-size: 10px; color: #8fa3cc; text-align: right; line-height: 1.9; }
+.nl-sec { margin-top: 18px; }
+.nl-sec-ttl { font-size: 14px; font-weight: 700; border-bottom: 2px solid; padding-bottom: 6px; margin-bottom: 11px; display: flex; align-items: center; gap: 6px; }
+.nl-sec-ttl.j { color: var(--navy); border-color: var(--navy); }
+.nl-sec-ttl.l { color: var(--green); border-color: var(--green); }
+.nl-sec-ttl.n { color: var(--red); border-color: var(--red); }
+.nl-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 9px; }
+.nl-card-hd { background: #f9f7f4; padding: 9px 13px; }
+.nl-card-ttl { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+.nl-card-tags { display: flex; gap: 4px; flex-wrap: wrap; }
+.nl-tag { font-size: 10px; padding: 1px 7px; border-radius: 8px; font-weight: 500; }
+.ntj { background: #e8ecf5; color: var(--navy); }
+.ntl { background: #e8f5ed; color: var(--green); }
+.ntn { background: #fdf0f0; color: var(--red); }
+.ntd { background: #f0f0ec; color: #666; }
+.nl-card-bd { padding: 11px 13px; }
+.nl-sub { margin-bottom: 7px; }
+.nl-sub-lbl { font-size: 9px; font-weight: 700; color: #888; letter-spacing: .4px; text-transform: uppercase; margin-bottom: 2px; }
+.nl-sub-txt { font-size: 12px; color: #444; line-height: 1.75; }
+.nl-imp { background: #fffbf3; border: 1px solid #e8dfc8; border-radius: 5px; padding: 9px 11px; margin-top: 8px; }
+.nl-imp-lbl { font-size: 9px; font-weight: 700; color: var(--gold); margin-bottom: 4px; }
+.nl-imp-i { font-size: 11.5px; color: #555; line-height: 1.7; padding-left: 9px; position: relative; margin-bottom: 2px; }
+.nl-imp-i::before { content: '•'; position: absolute; left: 0; color: var(--gold); }
+.nl-cmp { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 4px; }
+.nl-cc { border-radius: 5px; padding: 8px 10px; font-size: 11.5px; color: #444; line-height: 1.7; }
+.nl-cc.c { background: #f5f5f0; border-left: 3px solid #aaa; }
+.nl-cc.r { background: #f0f7f2; border-left: 3px solid var(--green); }
+.nl-cc .lbl { font-size: 9px; font-weight: 700; letter-spacing: .4px; margin-bottom: 3px; text-transform: uppercase; }
+.nl-cc.c .lbl { color: #888; } .nl-cc.r .lbl { color: var(--green); }
+.news-body { font-size: 12px; color: #444; line-height: 1.85; }
+.news-body .hb { font-weight: 700; color: #222; }
+.news-body .hu { text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 2px; }
+.news-body .hc { color: #c84a4a; font-weight: 500; }
+.nl-nimp { background: #faf9f5; border: 1px solid #e0ddd6; border-radius: 5px; padding: 8px 11px; margin-top: 8px; }
+.nl-nimp-lbl { font-size: 9px; font-weight: 700; color: var(--gold); margin-bottom: 2px; }
+.nl-nimp-txt { font-size: 11.5px; color: #555; line-height: 1.75; }
+.nl-ftr { background: #f7f4ef; border-top: 1px solid var(--border); padding: 11px 18px; display: flex; justify-content: space-between; font-size: 10px; color: #aaa; margin-top: 18px; }
+.nl-mini-btn { display:inline-block; font-size: 10px; padding: 3px 9px; border-radius: 12px; background: #1a2744; color: #fff; border: none; cursor: pointer; font-weight: 500; margin-left: 4px; transition: background .15s; }
+.nl-mini-btn:hover { background: #2a3a5e; }
+.nl-mini-btn-sm { font-size: 9.5px; padding: 2px 8px; background: #6c7c9b; }
+.nl-mini-btn-sm:hover { background: #5a6a85; }
+</style>
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/PptxGenJS@3.12.0/dist/pptxgen.bundle.js"></script>
+</head>
+<body>
+
+<!-- ══ API KEY SCREEN (미사용: 회사 공용 키는 서버에 보관, 항상 숨김) ══ -->
+<div class="apikey-screen hidden" id="apikey-screen">
+  <div class="apikey-card">
+    <div class="apikey-logo">
+      <div class="badge">CONSTRUCTION LEGAL LETTER</div>
+      <h1>건설 법무 뉴스레터</h1>
+      <p>시작하기 전에 Anthropic API 키를 입력해주세요.<br>키는 이 기기에만 저장되며 외부로 전송되지 않습니다.</p>
+    </div>
+    <div class="apikey-form">
+      <label>Anthropic API Key</label>
+      <div class="apikey-input-wrap">
+        <input type="password" id="apikey-input" placeholder="sk-ant-api03-..." autocomplete="off" onkeydown="if(event.key==='Enter')submitKey()">
+        <button class="apikey-eye" onclick="toggleKeyVis()" id="eye-btn" title="보기/숨기기">👁</button>
+      </div>
+      <div class="apikey-hint">
+        API 키가 없으신가요?
+        <a href="https://console.anthropic.com/settings/keys" target="_blank">console.anthropic.com</a>에서 무료로 발급받으세요.<br>
+        신규 가입 시 <strong style="color:var(--gold);">$5 무료 크레딧</strong> 제공 · 뉴스레터 1회 발행 비용 약 <strong>$0.05~0.10 (약 70~150원)</strong>
+      </div>
+      <div class="apikey-save-row">
+        <input type="checkbox" id="save-key-check" checked>
+        <label for="save-key-check">이 브라우저에 API 키 저장 (다음 방문 시 자동 입력)</label>
+      </div>
+      <div class="apikey-warn">
+        <strong>⚠ 공용 PC 주의:</strong> 공용 컴퓨터에서는 "저장" 체크를 해제하세요.<br>
+        키는 이 브라우저의 localStorage에만 저장되며, GitHub 코드에는 포함되지 않습니다.
+      </div>
+      <button class="btn-apikey-submit" onclick="submitKey()">🔑 시작하기</button>
+      <div class="apikey-security">
+        <span class="si">🔒</span>
+        <span>API 키는 브라우저에서 Anthropic 서버로 직접 전송됩니다. GitHub 저장소나 다른 서버를 거치지 않아 안전합니다. 노출 시 <a href="https://console.anthropic.com/settings/keys" target="_blank" style="color:var(--gold);">콘솔</a>에서 즉시 삭제하세요.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MAIN APP ══ -->
+<div class="shell" id="main-app" style="display:none;">
+
+<!-- API KEY STATUS BAR -->
+<div class="apikey-bar">
+  <div class="ak-info">
+    <div class="ak-dot"></div>
+    <span>회사 공용 API 연결됨 · 키는 서버에서 안전하게 관리</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-brand">
+    <div class="badge">CONSTRUCTION LEGAL LETTER</div>
+    <h1>건설 법무 뉴스레터</h1>
+    <p>AI 자동 수집 · 요약 · 발송 시스템</p>
+  </div>
+  <div class="hdr-meta">
+    <div class="hdr-stat"><div class="n" id="hs-total">0</div><div class="l">수집 항목</div></div>
+    <div class="hdr-stat"><div class="n" id="hs-sel" style="color:#7fd4a8;">0</div><div class="l">선택됨</div></div>
+    <div class="hdr-actions">
+      <button class="btn btn-gold btn-sm" onclick="openPreview()">미리보기</button>
+      <button class="btn btn-ghost btn-sm" style="color:#8fa3cc;border-color:rgba(255,255,255,.2);" id="hdr-date"></button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP NAV -->
+<div class="step-nav">
+  <button class="step-tab active" id="stab-0" onclick="goStep(0)"><span class="snum">1</span> AI 콘텐츠 수집</button>
+  <button class="step-tab" id="stab-1" onclick="goStep(1)"><span class="snum">2</span> 수신자 관리</button>
+  <button class="step-tab" id="stab-2" onclick="goStep(2)"><span class="snum">3</span> 발송 준비</button>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+<!-- ══ STEP 1 ══ -->
+<div class="panel active" id="panel-0">
+<div class="collect-layout">
+
+  <!-- KEYWORD SIDEBAR -->
+  <div class="kw-sidebar">
+    <h3>🔍 검색 설정</h3>
+
+    <!-- 1. 검색 기간 -->
+    <div class="kw-section">
+      <div class="kw-section-label">📅 검색 기간</div>
+      <div class="kw-select-row">
+        <select id="period-select" onchange="updateRunInfo()">
+          <option value="7d">최근 1주일</option>
+          <option value="1m">최근 1개월</option>
+          <option value="3m">최근 3개월</option>
+          <option value="6m">최근 6개월</option>
+          <option value="1y" selected>최근 1년 (기본)</option>
+          <option value="">전체 기간</option>
+        </select>
+      </div>
+      <p style="font-size:10px;color:var(--muted);margin-top:5px;line-height:1.5;">짧을수록 최신 동향이 더 잘 반영돼요.</p>
+    </div>
+
+    <!-- 2. 검색 키워드 (접기/펼치기) -->
+    <div class="kw-section">
+      <div class="kw-section-label" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;" onclick="toggleKwSection()">
+        🔑 검색 키워드
+        <span id="kw-section-toggle" style="font-size:11px;color:var(--muted);">▼ 펼치기</span>
+      </div>
+      <div id="kw-section-body" style="display:none;">
+        <div style="font-size:10px;color:var(--muted);margin:8px 0 5px;">⚖ 판례</div>
+        <div class="kw-chips" id="chips-judgment">
+          <span class="kw-chip judgment selected" onclick="toggleChip(this,'judgment','하도급 분쟁')">하도급 분쟁</span>
+          <span class="kw-chip judgment" onclick="toggleChip(this,'judgment','중대재해 판례')">중대재해 판례</span>
+          <span class="kw-chip judgment" onclick="toggleChip(this,'judgment','공사대금 청구')">공사대금 청구</span>
+          <span class="kw-chip judgment" onclick="toggleChip(this,'judgment','건설 계약 분쟁')">건설계약 분쟁</span>
+          <span class="kw-chip judgment" onclick="toggleChip(this,'judgment','공사 지연 배상')">공사지연 배상</span>
+          <span class="kw-chip judgment" onclick="toggleChip(this,'judgment','건설 하자 소송')">건설하자 소송</span>
+          <span class="kw-chip judgment" onclick="toggleChip(this,'judgment','산업안전 판례')">산업안전 판례</span>
+          <span class="kw-chip judgment" onclick="toggleChip(this,'judgment','부동산 개발 분쟁')">부동산 개발</span>
+        </div>
+
+        <div style="font-size:10px;color:var(--muted);margin:8px 0 5px;">📋 법령개정</div>
+        <div class="kw-chips" id="chips-law">
+          <span class="kw-chip law selected" onclick="toggleChip(this,'law','중대재해처벌법 개정')">중대재해처벌법</span>
+          <span class="kw-chip law" onclick="toggleChip(this,'law','건설산업기본법 개정')">건설산업기본법</span>
+          <span class="kw-chip law" onclick="toggleChip(this,'law','하도급법 개정')">하도급법</span>
+          <span class="kw-chip law" onclick="toggleChip(this,'law','산업안전보건법 개정')">산업안전보건법</span>
+          <span class="kw-chip law" onclick="toggleChip(this,'law','건설기술진흥법 개정')">건설기술진흥법</span>
+          <span class="kw-chip law" onclick="toggleChip(this,'law','주택법 개정')">주택법</span>
+          <span class="kw-chip law" onclick="toggleChip(this,'law','ESG 공시 의무')">ESG 공시</span>
+          <span class="kw-chip law" onclick="toggleChip(this,'law','환경영향평가법 개정')">환경영향평가법</span>
+        </div>
+
+        <div style="font-size:10px;color:var(--muted);margin:8px 0 5px;">📰 기사</div>
+        <div class="kw-chips" id="chips-news">
+          <span class="kw-chip news selected" onclick="toggleChip(this,'news','건설사 법규위반 제재')">건설사 제재</span>
+          <span class="kw-chip news" onclick="toggleChip(this,'news','건설 안전사고')">안전사고</span>
+          <span class="kw-chip news" onclick="toggleChip(this,'news','공정거래 건설')">공정거래</span>
+          <span class="kw-chip news" onclick="toggleChip(this,'news','건설 노동법 이슈')">노동법 이슈</span>
+          <span class="kw-chip news" onclick="toggleChip(this,'news','부동산 규제 정책')">부동산 규제</span>
+          <span class="kw-chip news" onclick="toggleChip(this,'news','건설 환경규제')">환경규제</span>
+          <span class="kw-chip news" onclick="toggleChip(this,'news','해외건설 법률')">해외건설 법률</span>
+          <span class="kw-chip news" onclick="toggleChip(this,'news','건설 행정처분')">행정처분</span>
+        </div>
+
+        <!-- 키워드 직접 추가 -->
+        <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:6px;">+ 키워드 직접 추가</div>
+          <div class="kw-select-row">
+            <select id="kw-type-select">
+              <option value="judgment">판례</option>
+              <option value="law">법령</option>
+              <option value="news">기사</option>
+            </select>
+          </div>
+          <div class="kw-add-row">
+            <input type="text" id="kw-custom" placeholder="키워드 입력...">
+            <button class="btn btn-navy btn-xs" onclick="addCustomKw()">추가</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. 검색 사이트 범위 -->
+    <div class="kw-section">
+      <div class="kw-section-label" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;" onclick="toggleSiteSection()">
+        🌐 검색 사이트 범위
+        <span id="site-section-toggle" style="font-size:11px;color:var(--muted);">▼ 펼치기</span>
+      </div>
+
+      <div id="site-section-body" style="display:none;margin-top:8px;">
+        <p style="font-size:10px;color:var(--muted);margin-bottom:8px;line-height:1.5;">클릭으로 활성/비활성 전환. 선택된 사이트를 우선 검색합니다.</p>
+
+        <div style="font-size:10px;color:var(--muted);margin-bottom:5px;">⚖ 판례</div>
+        <div class="kw-chips" id="site-chips-judgment"></div>
+        <div style="font-size:10px;color:var(--muted);margin:7px 0 5px;">📋 법령</div>
+        <div class="kw-chips" id="site-chips-law"></div>
+        <div style="font-size:10px;color:var(--muted);margin:7px 0 5px;">📰 기사</div>
+        <div class="kw-chips" id="site-chips-news"></div>
+
+        <!-- 사이트 직접 추가 -->
+        <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:6px;">+ 사이트 직접 추가</div>
+          <div style="display:flex;flex-direction:column;gap:5px;">
+            <select id="site-type-select" style="border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:11.5px;font-family:'Noto Sans KR',sans-serif;outline:none;">
+              <option value="judgment">판례</option>
+              <option value="law">법령</option>
+              <option value="news">기사</option>
+            </select>
+            <input type="text" id="site-name-input" placeholder="사이트명 (예: 건설경제)" style="border:1px solid var(--border);border-radius:6px;padding:6px 9px;font-size:11.5px;font-family:'Noto Sans KR',sans-serif;outline:none;">
+            <div style="display:flex;gap:6px;">
+              <input type="text" id="site-url-input" placeholder="주소 (예: www.cnews.co.kr)" style="flex:1;border:1px solid var(--border);border-radius:6px;padding:6px 9px;font-size:11.5px;font-family:'Noto Sans KR',sans-serif;outline:none;">
+              <button class="btn btn-navy btn-xs" onclick="addUserSiteFromInput()">추가</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="user-sites-judgment" style="display:none;"></div>
+      <div id="user-sites-law" style="display:none;"></div>
+      <div id="user-sites-news" style="display:none;"></div>
+    </div>
+
+    <!-- 4. Claude 모델 (한 줄) -->
+    <!-- 팀 설정 (기본: 접힘) -->
+    <div class="kw-section" style="padding-bottom:6px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="toggleTeamSettings()">
+        <div class="kw-section-label" style="margin-bottom:0;">🏢 팀 설정</div>
+        <span id="team-toggle-icon" style="font-size:11px;color:var(--muted);">▼ 펼치기</span>
+      </div>
+      <div id="team-settings-body" style="display:none;margin-top:10px;">
+        <div style="margin-bottom:6px;">
+          <label style="font-size:10px;color:var(--muted);display:block;margin-bottom:3px;">팀명</label>
+          <input type="text" id="setting-team-name" value="법무계약관리팀"
+            placeholder="예: 법무계약관리팀"
+            style="width:100%;border:1px solid var(--border);border-radius:6px;padding:6px 9px;font-size:11px;font-family:'Noto Sans KR',sans-serif;outline:none;box-sizing:border-box;"
+            oninput="saveTeamSettings()">
+        </div>
+        <div style="margin-bottom:6px;">
+          <label style="font-size:10px;color:var(--muted);display:block;margin-bottom:3px;">부문명</label>
+          <input type="text" id="setting-dept-name" value="경영지원부문"
+            placeholder="예: 경영지원부문"
+            style="width:100%;border:1px solid var(--border);border-radius:6px;padding:6px 9px;font-size:11px;font-family:'Noto Sans KR',sans-serif;outline:none;box-sizing:border-box;"
+            oninput="saveTeamSettings()">
+        </div>
+        <div>
+          <label style="font-size:10px;color:var(--muted);display:block;margin-bottom:3px;">내선번호</label>
+          <input type="text" id="setting-ext-num" value="0000"
+            placeholder="예: 1234"
+            style="width:100%;border:1px solid var(--border);border-radius:6px;padding:6px 9px;font-size:11px;font-family:'Noto Sans KR',sans-serif;outline:none;box-sizing:border-box;"
+            oninput="saveTeamSettings()">
+        </div>
+      </div>
+    </div>
+
+    <!-- 모델 설정 -->
+    <div class="kw-section" style="padding-bottom:6px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="kw-section-label" style="margin-bottom:0;white-space:nowrap;">🤖 모델</span>
+        <select id="model-select" onchange="onModelChange()" style="flex:1;border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:11px;font-family:'Noto Sans KR',sans-serif;outline:none;">
+          <!-- 기본(폴백) 목록 — 실제 목록은 로드 시 서버 /api/models 에서 자동 갱신되어 은퇴 모델은 표시되지 않음 -->
+          <option value="claude-sonnet-4-6">Sonnet 4.6 (균형·권장)</option>
+          <option value="claude-opus-4-8">Opus 4.8 (최고품질)</option>
+          <option value="claude-haiku-4-5">Haiku 4.5 (빠름)</option>
+          <option value="__custom__">⚙ 직접입력</option>
+        </select>
+      </div>
+      <input type="text" id="model-custom" placeholder="예: claude-sonnet-4-6" style="display:none;width:100%;margin-top:6px;border:1px solid var(--border);border-radius:6px;padding:6px 9px;font-size:11px;font-family:'Noto Sans KR',sans-serif;outline:none;">
+      <p id="model-warn-txt" style="font-size:10px;color:var(--muted);margin-top:4px;line-height:1.4;">목록은 서버에서 자동으로 불러옵니다(은퇴 모델 자동 제외). 특정 버전이 필요하면 직접입력을 쓰세요.</p>
+    </div>
+
+    <!-- RUN BOX -->
+    <div class="run-box">
+      <div class="run-info" id="run-info">로딩 중…</div>
+      <button class="btn-run" id="run-btn" onclick="runCollect()">
+        ✨ AI 자동 수집 시작
+      </button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results-area">
+    <div class="results-toolbar">
+      <h2>수집 결과 <span style="color:var(--muted);font-weight:400;font-size:13px;" id="res-count">(0건)</span></h2>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <div class="filter-tabs">
+          <button class="ftab active" id="ft-all" onclick="setFilter('all')">전체</button>
+          <button class="ftab" id="ft-judgment" onclick="setFilter('judgment')">판례 <span id="fc-j">0</span></button>
+          <button class="ftab" id="ft-law" onclick="setFilter('law')">법령 <span id="fc-l">0</span></button>
+          <button class="ftab" id="ft-news" onclick="setFilter('news')">기사 <span id="fc-n">0</span></button>
+        </div>
+        <button class="btn btn-navy btn-sm" onclick="goStep(1)">수신자 설정 →</button>
+      </div>
+    </div>
+
+    <div id="progress-area"></div>
+    <div id="results-list">
+      <div class="hint-box">
+        <div class="hi">⚖️</div>
+        <h3>건설 법무 키워드를 선택하세요</h3>
+        <p>좌측에서 원하는 키워드를 선택하고<br>AI 자동 수집을 시작하면 최신 내용을 가져옵니다.</p>
+        <div class="hint-keywords">
+          <span class="hint-kw">하도급 분쟁</span>
+          <span class="hint-kw">중대재해처벌법</span>
+          <span class="hint-kw">건설사 제재</span>
+          <span class="hint-kw">공사대금 청구</span>
+          <span class="hint-kw">산업안전보건법</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══ STEP 2 ══ -->
+<div class="panel" id="panel-1">
+<div class="recip-layout">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+    <div><h2 style="font-size:16px;font-weight:700;color:var(--navy);">수신자 관리</h2><p style="font-size:12px;color:var(--muted);margin-top:3px;">자주 받는 수신자를 저장해 두면 다음 단계에서 메일 작성창이 자동으로 채워집니다 (선택사항)</p></div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-ghost btn-sm" onclick="goStep(0)">← 이전</button>
+      <button class="btn btn-navy btn-sm" onclick="goStep(2)">발송 준비 →</button>
+    </div>
+  </div>
+
+  <div class="r-stats">
+    <div class="r-stat"><div class="n" id="rs-total">0</div><div class="l">전체 수신자</div></div>
+    <div class="r-stat"><div class="n" id="rs-sel" style="color:var(--green);">0</div><div class="l">발송 대상</div></div>
+    <div class="r-stat"><div class="n" id="rs-items" style="color:var(--gold);">0</div><div class="l">발송할 항목 수</div></div>
+  </div>
+
+  <div class="r-add-card">
+    <h3>수신자 추가</h3>
+    <div class="r-add-row">
+      <div><label style="font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.4px;display:block;margin-bottom:4px;">이름</label><input type="text" id="r-name" placeholder="홍길동" style="border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:12.5px;width:100%;font-family:'Noto Sans KR',sans-serif;outline:none;background:#fff;"></div>
+      <div><label style="font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.4px;display:block;margin-bottom:4px;">이메일</label><input type="email" id="r-email" placeholder="hong@company.com" style="border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:12.5px;width:100%;font-family:'Noto Sans KR',sans-serif;outline:none;background:#fff;"></div>
+      <div><label style="font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.4px;display:block;margin-bottom:4px;">부서 (선택)</label><input type="text" id="r-dept" placeholder="법무팀" style="border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:12.5px;width:100%;font-family:'Noto Sans KR',sans-serif;outline:none;background:#fff;"></div>
+      <div style="display:flex;align-items:flex-end;"><button class="btn btn-gold" onclick="addRecip()">추가</button></div>
+    </div>
+  </div>
+
+  <div id="r-list-area"><div class="hint-box"><div class="hi">👥</div><h3>수신자를 추가하세요</h3><p style="font-size:13px;color:var(--muted);">이름과 이메일을 입력해 추가하세요.</p></div></div>
+</div>
+</div>
+
+<!-- ══ STEP 3 ══ -->
+<div class="panel" id="panel-2">
+<div class="send-layout">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+    <div><h2 style="font-size:16px;font-weight:700;color:var(--navy);">발송 준비</h2><p style="font-size:12px;color:var(--muted);margin-top:3px;">메일 작성창을 자동으로 열고 본문은 한 번에 복사·붙여넣기</p></div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-ghost btn-sm" onclick="goStep(1)">← 이전</button>
+      <button class="btn btn-gold btn-sm" onclick="openPreview()">👁 미리보기</button>
+      <button class="btn btn-green btn-sm" onclick="genSendHTML()">발송 도구 열기 →</button>
+    </div>
+  </div>
+  <div class="send-summary-grid" id="send-summary"></div>
+  <div id="send-html-area"></div>
+</div>
+</div>
+
+</div><!-- /main -->
+</div><!-- /main-app shell -->
+
+
+<!-- PREVIEW MODAL -->
+<div class="modal-bg" id="preview-modal" onclick="if(event.target===this)closePreview()">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3>뉴스레터 미리보기</h3>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn btn-gold btn-sm" onclick="downloadPPT()" title="선택된 항목만 PPT로 다운로드">📊 PPT 다운로드</button>
+        <button class="btn btn-ghost btn-sm" style="color:#8fa3cc;border-color:rgba(255,255,255,.2);" onclick="closePreview()">✕ 닫기</button>
+      </div>
+    </div>
+    <div class="modal-body nl" id="preview-body"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── API KEY MANAGEMENT ──
+let API_KEY = '';
+
+function initApiKey() {
+  // 회사 공용 API 키는 서버(환경변수)에만 보관됩니다.
+  // 브라우저에는 키가 없으므로 입력 화면 없이 바로 앱을 표시합니다.
+  showApp();
+}
+
+// 팀 설정 저장/로드
+function toggleTeamSettings() {
+  const body = document.getElementById('team-settings-body');
+  const icon = document.getElementById('team-toggle-icon');
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  icon.textContent = isOpen ? '▼ 펼치기' : '▲ 접기';
+}
+
+function saveTeamSettings() {
+  localStorage.setItem('legal_nl_team', document.getElementById('setting-team-name').value);
+  localStorage.setItem('legal_nl_dept', document.getElementById('setting-dept-name').value);
+  localStorage.setItem('legal_nl_ext',  document.getElementById('setting-ext-num').value);
+}
+function loadTeamSettings() {
+  const team = localStorage.getItem('legal_nl_team');
+  const dept = localStorage.getItem('legal_nl_dept');
+  const ext  = localStorage.getItem('legal_nl_ext');
+  if (team) document.getElementById('setting-team-name').value = team;
+  if (dept) document.getElementById('setting-dept-name').value = dept;
+  if (ext)  document.getElementById('setting-ext-num').value  = ext;
+}
+function getTeamInfo() {
+  return {
+    team: (document.getElementById('setting-team-name')?.value || '법무계약관리팀').trim(),
+    dept: (document.getElementById('setting-dept-name')?.value || '경영지원부문').trim(),
+    ext:  (document.getElementById('setting-ext-num')?.value  || '0000').trim(),
+  };
+}
+
+function submitKey() {
+  const val = document.getElementById('apikey-input').value.trim();
+  if (!val || !val.startsWith('sk-')) {
+    alert('올바른 API 키를 입력하세요.\n키는 "sk-"로 시작합니다.');
+    return;
+  }
+  API_KEY = val;
+  if (document.getElementById('save-key-check').checked) {
+    localStorage.setItem('legal_nl_apikey', val);
+  } else {
+    localStorage.removeItem('legal_nl_apikey');
+  }
+  showApp();
+}
+
+function showApp() {
+  document.getElementById('apikey-screen').classList.add('hidden');
+  document.getElementById('main-app').style.display = 'flex';
+  loadTeamSettings(); // 저장된 팀 설정 복원
+  populateModels();   // 서버에서 현재 사용 가능한 모델 목록 로드 (은퇴 모델 자동 제외)
+}
+
+function changeKey() {
+  API_KEY = '';
+  localStorage.removeItem('legal_nl_apikey');
+  document.getElementById('apikey-input').value = '';
+  document.getElementById('apikey-screen').classList.remove('hidden');
+  document.getElementById('main-app').style.display = 'none';
+}
+
+function toggleKeyVis() {
+  const inp = document.getElementById('apikey-input');
+  const btn = document.getElementById('eye-btn');
+  if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
+  else { inp.type = 'password'; btn.textContent = '👁'; }
+}
+
+// ── 모델 목록: 서버 /api/models 에서 동적 로드 (은퇴 모델은 애초에 반환되지 않으므로 자동 제외) ──
+async function populateModels() {
+  const sel = document.getElementById('model-select');
+  if (!sel) return;
+  try {
+    const res = await fetch('/api/models?ts=' + Date.now());
+    if (!res.ok) return; // 실패 시 HTML 기본(폴백) 목록 유지
+    const data = await res.json();
+    const models = (data.data || []).filter(m => m && m.id);
+    if (!models.length) return;
+    const prev = sel.value;
+    const opts = models.map(m =>
+      `<option value="${esc(m.id)}">${esc(m.display_name || m.id)}</option>`
+    ).join('');
+    sel.innerHTML = opts + '<option value="__custom__">⚙ 직접입력</option>';
+    // 이전 선택값이 여전히 유효하면 유지, 아니면 Sonnet 계열 우선 선택
+    const stillValid = [...sel.options].some(o => o.value === prev);
+    const sonnet = models.find(m => /sonnet/i.test(m.id));
+    sel.value = stillValid ? prev : (sonnet ? sonnet.id : models[0].id);
+    onModelChange();
+  } catch (e) {
+    console.warn('모델 목록 로드 실패 — 기본 목록 사용:', e);
+  }
+}
+
+// ── STATE ──
+const S = { items: [], recips: [], filter: 'all' };
+let idc = 0;
+const selectedKws = { judgment: new Set(['하도급 분쟁']), law: new Set(['중대재해처벌법 개정']), news: new Set(['건설사 법규위반 제재']) };
+
+// INIT — renderSiteChips는 함수 정의 후 호출 (스크립트 하단에서 실행)
+
+// ── KEYWORD LOGIC ──
+// 사이트 활성화 상태 (기본: 모두 활성)
+function loadSiteActive() {
+  try { return JSON.parse(localStorage.getItem('siteActive') || '{}'); }
+  catch(e) { return {}; }
+}
+function saveSiteActive() { localStorage.setItem('siteActive', JSON.stringify(siteActive)); }
+let siteActive = loadSiteActive();
+
+function isSiteActive(type, name) {
+  const key = `${type}__${name}`;
+  return siteActive[key] !== false; // 기본 true
+}
+function toggleSiteChip(type, name) {
+  const key = `${type}__${name}`;
+  siteActive[key] = !isSiteActive(type, name);
+  saveSiteActive();
+  renderSiteChips();
+}
+
+function renderSiteChips() {
+  ['judgment', 'law', 'news'].forEach(type => {
+    const container = document.getElementById(`site-chips-${type}`);
+    if (!container) return;
+    const defaults = DEFAULT_PRIORITY_RSS[type] || [];
+    const customs = userSites[type] || [];
+    const all = [...defaults, ...customs];
+    container.innerHTML = all.map(s => {
+      const active = isSiteActive(type, s.name);
+      const cls = type === 'judgment' ? 'judgment' : type === 'law' ? 'law' : 'news';
+      const del = s.custom ? `<span onclick="event.stopPropagation();removeUserSite('${type}','${esc(s.name)}')" style="margin-left:3px;opacity:.6;cursor:pointer;">✕</span>` : '';
+      return `<span class="kw-chip ${cls}${active ? ' selected' : ''}"
+        onclick="toggleSiteChip('${type}','${esc(s.name)}')"
+        title="${esc(s.name)}"
+      >${esc(s.name)}${del}</span>`;
+    }).join('');
+  });
+}
+
+function renderUserSites() { renderSiteChips(); } // 호환 유지
+
+function toggleKwSection() {
+  const body = document.getElementById('kw-section-body');
+  const tog = document.getElementById('kw-section-toggle');
+  if (!body) return;
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  tog.textContent = open ? '▼ 펼치기' : '▲ 접기';
+}
+
+function toggleSiteSection() {
+  const body = document.getElementById('site-section-body');
+  const toggle = document.getElementById('site-section-toggle');
+  if (!body) return;
+  const isHidden = body.style.display === 'none';
+  body.style.display = isHidden ? 'block' : 'none';
+  toggle.textContent = isHidden ? '▲ 접기' : '▼ 펼치기';
+  if (isHidden) renderSiteChips();
+}
+
+function addUserSiteFromInput() {
+  const type = document.getElementById('site-type-select').value;
+  const name = document.getElementById('site-name-input').value.trim();
+  const url = document.getElementById('site-url-input').value.trim();
+  if (!name || !url) { showToast('사이트명과 주소를 모두 입력하세요', 'err'); return; }
+  addUserSite(type, name, url);
+  document.getElementById('site-name-input').value = '';
+  document.getElementById('site-url-input').value = '';
+  showToast(`✅ "${name}" 추가됨`, 'ok');
+}
+
+function toggleChip(el, type, kw) {
+  if (el.classList.contains('selected')) {
+    el.classList.remove('selected');
+    selectedKws[type].delete(kw);
+  } else {
+    el.classList.add('selected');
+    selectedKws[type].add(kw);
+  }
+  updateRunInfo();
+}
+function addCustomKw() {
+  const val = document.getElementById('kw-custom').value.trim();
+  const type = document.getElementById('kw-type-select').value;
+  if (!val) return;
+  selectedKws[type].add(val);
+  const container = document.getElementById('chips-' + type);
+  const chip = document.createElement('span');
+  chip.className = `kw-chip ${type} selected`;
+  chip.textContent = val;
+  chip.onclick = function() { toggleChip(this, type, val); };
+  container.appendChild(chip);
+  document.getElementById('kw-custom').value = '';
+  updateRunInfo();
+}
+const MAX_KEYWORDS = 9;
+
+function updateRunInfo() {
+  const j = [...selectedKws.judgment].length;
+  const l = [...selectedKws.law].length;
+  const n = [...selectedKws.news].length;
+  const total = j + l + n;
+  const overLimit = total > MAX_KEYWORDS;
+
+  const periodEl = document.getElementById('period-select');
+  const periodLabel = periodEl ? (periodEl.options[periodEl.selectedIndex]?.text || '최근 1년') : '최근 1년';
+  const runInfo = document.getElementById('run-info');
+  const runBtn = document.getElementById('run-btn');
+
+  if (runInfo) {
+    const estMin = Math.ceil(total * 25 / 60); // 키워드당 약 25초
+    if (overLimit) {
+      runInfo.innerHTML = `
+        <div style="background:#fff0f0;border:1.5px solid #e8a0a0;border-radius:8px;padding:9px 12px;margin-bottom:4px;">
+          <div style="font-size:12px;font-weight:700;color:#c0392b;margin-bottom:3px;">🚫 키워드 초과 (${total}/${MAX_KEYWORDS}개)</div>
+          <div style="font-size:11px;color:#7a2020;line-height:1.7;">선택한 키워드가 ${MAX_KEYWORDS}개를 초과합니다.<br>키워드가 많으면 수집 시간이 길어지고 일부 항목이 누락될 수 있습니다.<br><strong>${MAX_KEYWORDS}개 이하로 줄여야 수집을 시작할 수 있습니다.</strong></div>
+        </div>`;
+    } else {
+      runInfo.innerHTML = `
+        선택된 키워드: <strong>${total}</strong>개 (판례 ${j} · 법령 ${l} · 기사 ${n})<br>
+        검색 기간: <strong>${esc(periodLabel)}</strong>
+        ${total > 0 ? `&nbsp;·&nbsp; 예상 소요: <strong>약 ${estMin}분</strong>` : ''}`;
+    }
+  }
+
+  if (runBtn) {
+    runBtn.disabled = overLimit || total === 0;
+    runBtn.style.opacity = (overLimit || total === 0) ? '0.45' : '1';
+    runBtn.style.cursor = (overLimit || total === 0) ? 'not-allowed' : 'pointer';
+    runBtn.title = overLimit ? `키워드를 ${MAX_KEYWORDS}개 이하로 줄이세요` : '';
+  }
+}
+
+// ── AI COLLECT ──
+async function runCollect() {
+  const kwJ = [...selectedKws.judgment];
+  const kwL = [...selectedKws.law];
+  const kwN = [...selectedKws.news];
+  const total = kwJ.length + kwL.length + kwN.length;
+  if (total === 0) { showToast('키워드를 1개 이상 선택하세요', 'err'); return; }
+  if (total > MAX_KEYWORDS) { showToast(`키워드를 ${MAX_KEYWORDS}개 이하로 줄이세요 (현재 ${total}개)`, 'err'); return; }
+
+  document.getElementById('run-btn').disabled = true;
+  const progArea = document.getElementById('progress-area');
+  progArea.innerHTML = buildProgress(kwJ, kwL, kwN);
+  document.getElementById('results-list').innerHTML = '';
+  LAST_ERRORS.length = 0;  // 진단 정보 리셋
+
+  // process each category
+  const tasks = [
+    { type: 'judgment', kws: kwJ, label: '중요판례', id: 'prog-j' },
+    { type: 'law', kws: kwL, label: '법령개정', id: 'prog-l' },
+    { type: 'news', kws: kwN, label: '기사문', id: 'prog-n' },
+  ];
+
+  let done = 0;
+  for (const task of tasks) {
+    if (task.kws.length === 0) { done++; updateProgBar(done, 3); continue; }
+    setProgStep(task.id, 'running', 'Claude 웹검색 시작 중...');
+    try {
+      const results = await fetchForType(task.type, task.kws);
+      results.forEach(r => { S.items.push({ id: ++idc, type: task.type, selected: true, collapsed: true, ...r }); });
+      const errCount = LAST_ERRORS.filter(e=>true).length;  // 누적이긴 하지만 참고용
+      setProgStep(task.id, results.length ? 'done' : 'error', `${results.length}건 수집·요약 완료`);
+    } catch(e) {
+      setProgStep(task.id, 'error', '수집 실패 — 키워드를 확인하세요');
+      console.error(e);
+    }
+    done++;
+    updateProgBar(done, 3);
+    updateCounts();
+    renderResults();
+    await sleep(300);
+  }
+
+  document.getElementById('run-btn').disabled = false;
+  updateCounts();
+  renderResults();
+
+  // RSS/프록시 단계의 기술적 에러는 사용자에게 노출하지 않는다.
+  // 폴백으로 결과가 생성되며, 신뢰도는 항목별 'AI 추정 — 검증 필요' 배지로 안내되므로
+  // 진단 정보는 개발자용으로 콘솔에만 기록한다.
+  if (LAST_ERRORS.length) console.warn('[수집 진단]', LAST_ERRORS);
+
+  if (S.items.length) {
+    showToast(`✅ 총 ${S.items.length}건 수집 완료`, 'ok');
+    setTimeout(() => { progArea.innerHTML = ''; }, 5000);
+  } else {
+    showToast('수집된 항목이 없습니다 — 키워드나 검색 기간을 변경해 다시 시도하세요', 'err');
+  }
+}
+
+// ── 법무법인 뉴스레터 사이트 (법령개정 우선 수집처) ──
+const LAW_FIRM_SITES = [
+  { name: '세종', shortName: '세종', url: 'https://www.shinkim.com/kor/media/newsletter' },
+  { name: '광장', shortName: '광장', url: 'https://www.leeko.com/leenko/news/newsLetterList.do?lang=KR' },
+  { name: '율촌', shortName: '율촌', url: 'https://www.yulchon.com/ko/resources/publications/newsletter.do' },
+  { name: '화우', shortName: '화우', url: 'https://www.hwawoo.com/kor/insights/newsletters' },
+  { name: '태평양', shortName: '태평양', url: 'https://www.bkl.co.kr/law/insight/legal-data' },
+  { name: '지평', shortName: '지평', url: 'https://www.jipyong.com/kr/board/newsletters_list.php' },
+  { name: '김·장', shortName: '김장', url: 'https://www.kimchang.com/ko/insights/index.kc' },
+  { name: '바른', shortName: '바른', url: 'https://www.barunlaw.com/barunnews/N' },
+];
+
+// CORS 프록시를 통해 법무법인 사이트에서 HTML 가져오기
+async function fetchSiteHTML(url) {
+  const proxies = [
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+    `https://corsproxy.io/?${encodeURIComponent(url)}`,
+  ];
+  for (const proxy of proxies) {
+    try {
+      const res = await fetch(proxy, { signal: AbortSignal.timeout(8000) });
+      if (!res.ok) continue;
+      const text = await res.text();
+      if (text && text.length > 500) return text;
+    } catch(e) { continue; }
+  }
+  return null;
+}
+
+// 법무법인 사이트 HTML에서 뉴스레터 목록 텍스트 추출 (링크·제목·날짜 패턴)
+function extractNewsletterItems(html, firmName, keyword) {
+  if (!html) return [];
+  // 텍스트만 추출
+  const text = html
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/\s+/g, ' ')
+    .trim();
+  // 키워드 관련 문장들 추출 (전후 200자)
+  const kwLower = keyword.toLowerCase();
+  const results = [];
+  let idx = 0;
+  while (idx < text.length) {
+    const pos = text.toLowerCase().indexOf(kwLower, idx);
+    if (pos === -1) break;
+    const start = Math.max(0, pos - 200);
+    const end = Math.min(text.length, pos + 300);
+    const snippet = text.substring(start, end).trim();
+    results.push({ title: snippet.substring(0, 80).trim(), description: snippet, source: firmName, pubDate: '', link: '' });
+    idx = pos + kwLower.length;
+    if (results.length >= 2) break;
+  }
+  return results;
+}
+
+// 법무법인 사이트들 순차 탐색 → 키워드 관련 스니펫 수집
+async function fetchFromLawFirms(keyword, maxFirms = 4) {
+  const articles = [];
+  const triedFirms = [];
+  for (const firm of LAW_FIRM_SITES) {
+    if (articles.length >= 3) break;
+    if (triedFirms.length >= maxFirms) break;
+    try {
+      const html = await fetchSiteHTML(firm.url);
+      if (!html) { triedFirms.push(firm.shortName); continue; }
+      const items = extractNewsletterItems(html, firm.name, keyword);
+      if (items.length) {
+        articles.push(...items.map(item => ({ ...item, _firmSource: firm.name, _firmUrl: firm.url })));
+        console.log(`[로펌] ${firm.name}에서 "${keyword}" ${items.length}건 발견`);
+      }
+      triedFirms.push(firm.shortName);
+    } catch(e) {
+      console.warn(`[로펌] ${firm.name} 실패:`, e);
+      triedFirms.push(firm.shortName);
+    }
+  }
+  return { articles, triedFirms };
+}
+
+// ── 판례 우선 수집 사이트 ──
+const JUDGMENT_SITES = [
+  { name: '법률신문', shortName: '법률신문', url: 'https://www.lawtimes.co.kr/' },
+  { name: '대법원 판례속보', shortName: '대법원속보', url: 'https://www.scourt.go.kr/portal/news/NewsListAction.work?gubun=4&type=5' },
+  { name: '전국법원 주요판결', shortName: '법원주요판결', url: 'https://www.scourt.go.kr/portal/dcboard/DcNewsListAction.work?gubun=44' },
+  { name: '국가법령정보센터 판례', shortName: '법령정보센터', url: 'https://law.go.kr/precSc.do?menuId=7&subMenuId=47&tabMenuId=213&query=' },
+  { name: '대법원 종합법률정보', shortName: '대법원', url: 'https://portal.scourt.go.kr/pgp/index.on?m=PGP1011M01&l=N&c=900' },
+  { name: '법원도서관 판례', shortName: '법원도서관', url: 'https://e-book.scourt.go.kr/contents/category?type=ABEX&lcate=018' },
+];
+
+// ── 기사 우선 수집 사이트 ──
+const NEWS_SITES = [
+  { name: '법률신문', shortName: '법률신문', url: 'https://www.lawtimes.co.kr/' },
+  { name: '대법원 언론보도판결', shortName: '언론보도판결', url: 'https://www.scourt.go.kr/portal/news/NewsListAction.work?gubun=2' },
+];
+
+// ── 공통: 지정 사이트 순차 탐색 ──
+async function fetchFromPrioritySites(keyword, sites, maxSites = 4) {
+  const articles = [];
+  const triedSites = [];
+  for (const site of sites) {
+    if (articles.length >= 3) break;
+    if (triedSites.length >= maxSites) break;
+    try {
+      const html = await fetchSiteHTML(site.url);
+      if (!html) { triedSites.push(site.shortName); continue; }
+      const items = extractNewsletterItems(html, site.name, keyword);
+      if (items.length) {
+        articles.push(...items.map(item => ({ ...item, _siteSource: site.name, _siteUrl: site.url })));
+        console.log(`[우선사이트] ${site.name}에서 "${keyword}" ${items.length}건 발견`);
+      }
+      triedSites.push(site.shortName);
+    } catch(e) {
+      console.warn(`[우선사이트] ${site.name} 실패:`, e);
+      triedSites.push(site.shortName);
+    }
+  }
+  return { articles, triedSites };
+}
+// ── 타입별 지정 사이트 RSS 검색 설정 ──
+const DEFAULT_PRIORITY_RSS = {
+  judgment: [
+    { name: '법률신문',       query: 'site:lawtimes.co.kr' },
+    { name: '대법원 판례속보', query: 'site:scourt.go.kr 판례' },
+    { name: '국가법령정보센터', query: 'site:law.go.kr 판례' },
+  ],
+  law: [
+    { name: '법무법인 세종',  query: 'site:shinkim.com 뉴스레터' },
+    { name: '법무법인 광장',  query: 'site:leeko.com 뉴스레터' },
+    { name: '법무법인 율촌',  query: 'site:yulchon.com 뉴스레터' },
+    { name: '법무법인 화우',  query: 'site:hwawoo.com 뉴스레터' },
+    { name: '법무법인 태평양', query: 'site:bkl.co.kr 뉴스레터' },
+    { name: '법무법인 지평',  query: 'site:jipyong.com 뉴스레터' },
+    { name: '법무법인 김·장', query: 'site:kimchang.com 뉴스레터' },
+    { name: '법무법인 바른',  query: 'site:barunlaw.com 뉴스레터' },
+  ],
+  news: [
+    { name: '법률신문',          query: 'site:lawtimes.co.kr' },
+    { name: '대법원 언론보도판결', query: 'site:scourt.go.kr 언론보도' },
+  ],
+};
+
+// 사용자 추가 사이트 (localStorage 저장)
+function loadUserSites() {
+  try { return JSON.parse(localStorage.getItem('userSites') || '{"judgment":[],"law":[],"news":[]}'); }
+  catch(e) { return { judgment: [], law: [], news: [] }; }
+}
+function saveUserSites(sites) {
+  localStorage.setItem('userSites', JSON.stringify(sites));
+}
+let userSites = loadUserSites();
+
+function getPrioritySites(type) {
+  const all = [...(DEFAULT_PRIORITY_RSS[type] || []), ...(userSites[type] || [])];
+  return all.filter(s => isSiteActive(type, s.name));
+}
+
+function addUserSite(type, name, domain) {
+  if (!name || !domain) return;
+  const host = domain.replace(/^https?:\/\//, '').replace(/\/.*$/, '').trim();
+  if (!host) return;
+  if (!userSites[type]) userSites[type] = [];
+  if (userSites[type].find(s => s.name === name)) return;
+  userSites[type].push({ name, query: `site:${host}`, custom: true });
+  saveUserSites(userSites);
+  renderSiteChips();
+  updateRunInfo();
+}
+
+function removeUserSite(type, name) {
+  if (!userSites[type]) return;
+  userSites[type] = userSites[type].filter(s => s.name !== name);
+  saveUserSites(userSites);
+  renderUserSites();
+}
+
+function renderUserSites() {
+  ['judgment', 'law', 'news'].forEach(type => {
+    const container = document.getElementById(`user-sites-${type}`);
+    if (!container) return;
+    const sites = userSites[type] || [];
+    container.innerHTML = sites.map(s =>
+      `<span class="kw-chip ${type} selected" style="padding-right:6px;">
+        ${esc(s.name)}
+        <span onclick="removeUserSite('${type}','${esc(s.name)}')" style="margin-left:4px;cursor:pointer;opacity:.7;font-size:11px;">✕</span>
+      </span>`
+    ).join('');
+  });
+}
+
+function buildRSSUrl(query) {
+  const period = (document.getElementById('period-select')?.value || '1y').trim();
+  const term = period ? `${query} when:${period}` : query;
+  return `https://news.google.com/rss/search?q=${encodeURIComponent(term)}&hl=ko&gl=KR&ceid=KR:ko`;
+}
+
+// RSS URL → 기사 파싱 (CORS 프록시 3단계)
+async function fetchRSSUrl(url, maxItems = 5) {
+  const proxies = [
+    url,
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+    `https://corsproxy.io/?${encodeURIComponent(url)}`,
+  ];
+  for (const proxyUrl of proxies) {
+    try {
+      const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(8000) });
+      if (!res.ok) continue;
+      const xml = await res.text();
+      if (!xml || xml.length < 100) continue;
+      const items = parseRSSXml(xml, maxItems);
+      if (items.length) return items;
+    } catch(e) { continue; }
+  }
+  return [];
+}
+
+// 지정 사이트 우선 RSS → 부족하면 Google 뉴스 보충
+async function fetchArticlesForKeyword(type, keyword, needed = 3) {
+  const allArticles = [];
+  const usedSiteNames = [];
+
+  // 1차: 지정 사이트 RSS (site: 검색)
+  const prioritySites = getPrioritySites(type);
+  for (const site of prioritySites) {
+    if (allArticles.length >= needed) break;
+    try {
+      const rssUrl = buildRSSUrl(`${site.query} ${keyword}`);
+      const items = await fetchRSSUrl(rssUrl, 3);
+      if (items.length) {
+        // 출처명을 지정 사이트명으로 덮어씀
+        const tagged = items.map(a => ({ ...a, source: site.name, _prioritySite: site.name }));
+        allArticles.push(...tagged);
+        usedSiteNames.push(site.name);
+        console.log(`[지정RSS] ${site.name} "${keyword}": ${items.length}건`);
+      }
+    } catch(e) {
+      console.warn(`[지정RSS] ${site.name} 실패:`, e.message);
+    }
+  }
+
+  // 2차: 부족하면 Google 뉴스 일반 검색으로 보충
+  if (allArticles.length < needed) {
+    try {
+      const rssUrl = buildRSSUrl(keyword);
+      const items = await fetchRSSUrl(rssUrl, needed - allArticles.length + 2);
+      if (items.length) {
+        allArticles.push(...items);
+        console.log(`[구글RSS] "${keyword}" 보충: ${items.length}건`);
+      }
+    } catch(e) {
+      console.warn(`[구글RSS] "${keyword}" 실패:`, e.message);
+    }
+  }
+
+  // Google 뉴스 리다이렉트 URL을 실제 기사 URL로 resolve
+  const resolved = await resolveRSSLinks(allArticles.slice(0, needed + 2));
+  return { articles: resolved, prioritySiteNames: usedSiteNames };
+}
+
+// 기존 호환용 (summarizeFromKnowledge 등에서 사용)
+async function fetchRSSArticles(keyword, maxItems = 5) {
+  const url = buildRSSUrl(keyword);
+  return await fetchRSSUrl(url, maxItems);
+}
+
+// Google 뉴스 RSS description 안의 href에서 실제 원문 URL 추출
+function extractRealUrlFromDescription(descRaw) {
+  if (!descRaw) return '';
+  // HTML 엔티티 디코딩 후 첫 번째 href 추출
+  const decoded = descRaw
+    .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&amp;/g, '&');
+  const match = decoded.match(/href=["'](https?:\/\/[^"']+)["']/);
+  // Google 뉴스 내부 URL이 아닌 경우만 반환
+  if (match && !match[1].includes('news.google.com')) return match[1];
+  return '';
+}
+
+// Google 뉴스 리다이렉트 URL → 실제 원문 URL resolve
+// HEAD 요청으로 Location 헤더를 따라가거나, 프록시를 통해 최종 URL을 얻음
+async function resolveGoogleNewsUrl(gnUrl) {
+  if (!gnUrl || !gnUrl.includes('news.google.com')) return gnUrl;
+  // 방법 1: allorigins 프록시로 HEAD 요청 — Location 헤더 추출
+  try {
+    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(gnUrl)}`;
+    const res = await fetch(proxyUrl, { method: 'GET', signal: AbortSignal.timeout(5000), redirect: 'follow' });
+    // 최종 도착한 URL이 실제 기사 URL
+    if (res.url && !res.url.includes('news.google.com') && !res.url.includes('allorigins')) {
+      return res.url;
+    }
+    // response body에서 meta refresh나 canonical 추출 시도
+    const html = await res.text();
+    const canonical = html.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i)?.[1]
+      || html.match(/<meta[^>]+http-equiv=["']refresh["'][^>]+content=["'][^;]+;\s*url=([^"']+)["']/i)?.[1];
+    if (canonical && !canonical.includes('news.google.com')) return canonical;
+  } catch(e) { /* 무시 */ }
+  return gnUrl; // 실패하면 원래 URL 그대로
+}
+
+// RSS 파싱 후 Google 뉴스 URL을 실제 URL로 일괄 resolve
+async function resolveRSSLinks(items) {
+  return Promise.all(items.map(async item => {
+    if (!item.link || !item.link.includes('news.google.com')) return item;
+    const resolved = await resolveGoogleNewsUrl(item.link);
+    return { ...item, link: resolved };
+  }));
+}
+
+function parseRSSXml(xmlText, maxItems) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(xmlText, 'text/xml');
+  const parseError = doc.querySelector('parsererror');
+  if (parseError) throw new Error('XML 파싱 실패');
+  const itemNodes = Array.from(doc.querySelectorAll('item')).slice(0, maxItems);
+  return itemNodes.map(node => {
+    const getText = (sel) => node.querySelector(sel)?.textContent?.trim() || '';
+    const title = getText('title').replace(/<[^>]+>/g, '').replace(' - ', ' | ');
+    const gnLink = getText('link'); // Google 뉴스 리다이렉트 URL (백업용)
+    const descRaw = node.querySelector('description')?.textContent || '';
+    // description의 href에서 실제 원문 URL 추출, 없으면 source url 속성, 그것도 없으면 gnLink
+    const descHref = extractRealUrlFromDescription(descRaw);
+    const sourceUrl = node.querySelector('source')?.getAttribute('url') || '';
+    // source url은 홈페이지 주소라 기사 URL로 쓸 수 없음 — 폴백에서 제외
+    const realLink = descHref || gnLink;
+    // 디버그: 실제 RSS 데이터 확인용 (개발 중)
+    if (!descHref) console.warn('[RSS] description href 없음. gnLink:', gnLink.substring(0,60), '| sourceUrl:', sourceUrl);
+    else console.log('[RSS] 원문 URL 추출 성공:', descHref.substring(0,80));
+    const pubDateRaw = getText('pubDate');
+    const pubDate = pubDateRaw ? new Date(pubDateRaw).toISOString().substring(0, 10) : '';
+    const sourceTag = node.querySelector('source')?.textContent?.trim();
+    const source = sourceTag || (realLink ? safeHostname(realLink) : '');
+    const description = descRaw.replace(/<[^>]+>/g, '').replace(/&[a-z]+;/g, ' ').substring(0, 500);
+    return { title, link: realLink, pubDate, source, description };
+  }).filter(item => item.title);
+}
+
+function safeHostname(url) {
+  try { return new URL(url).hostname.replace('www.', ''); }
+  catch(e) { return ''; }
+}
+
+// 마지막 수집 시 발생한 에러를 모아두는 전역 변수 (진단용)
+const LAST_ERRORS = [];
+
+async function fetchForType(type, keywords) {
+  const results = [];
+  const progId = { judgment: 'prog-j', law: 'prog-l', news: 'prog-n' }[type];
+
+  for (let i = 0; i < keywords.length; i++) {
+    const kw = keywords[i];
+    // 첫 번째 키워드 이후 20초 딜레이 (Rate Limit 30,000 TPM 대응)
+    if (i > 0) {
+      setProgStep(progId, 'running', `(${i+1}/${keywords.length}) 잠시 대기 중... (API 한도 초과 방지)`);
+      await new Promise(r => setTimeout(r, 20000));
+    }
+    setProgStep(progId, 'running', `(${i+1}/${keywords.length}) "${kw}" 웹검색 중...`);
+
+    let lastErr = null;
+    // 429 Rate Limit 시 최대 2회 재시도
+    for (let retry = 0; retry < 3; retry++) {
+      if (retry > 0) {
+        const wait = retry * 30000; // 30초, 60초
+        setProgStep(progId, 'running', `(${i+1}/${keywords.length}) "${kw}" Rate Limit — ${wait/1000}초 후 재시도...`);
+        await new Promise(r => setTimeout(r, wait));
+      }
+      try {
+        const result = await Promise.race([
+          summarizeWithClaude(type, kw),
+          new Promise((_, rej) => setTimeout(() => rej(new Error('검색 타임아웃')), 90000))
+        ]);
+        if (result) {
+          results.push({ ...result, keyword: kw });
+          setProgStep(progId, 'running', `(${i+1}/${keywords.length}) 완료`);
+        }
+        lastErr = null;
+        break; // 성공 시 재시도 루프 탈출
+      } catch(e) {
+        lastErr = e;
+        const is429 = e.message && (e.message.includes('429') || e.message.includes('rate limit') || e.message.includes('tokens per minute'));
+        if (!is429) break; // 429가 아니면 재시도 의미 없음
+        console.warn(`[검색] "${kw}" 429 Rate Limit (retry ${retry+1}/3)`);
+      }
+    }
+    if (lastErr) {
+      console.warn(`[검색] "${kw}" 최종 실패:`, lastErr.message);
+      LAST_ERRORS.push({ kw, stage: '검색', msg: lastErr.message });
+    }
+  }
+  return results;
+}
+
+function renderErrorDiagnostics() {
+  if (!LAST_ERRORS.length) return '';
+  // 같은 메시지는 합치기
+  const grouped = {};
+  LAST_ERRORS.forEach(e => {
+    const key = `${e.stage}|${e.msg}`;
+    if (!grouped[key]) grouped[key] = {stage:e.stage, msg:e.msg, kws:[]};
+    grouped[key].kws.push(e.kw);
+  });
+  const items = Object.values(grouped).map(g =>
+    `<li style="margin-bottom:6px;"><strong style="color:#a63232;">[${g.stage}]</strong> <span style="color:#7a2020;">${esc(g.msg)}</span><br><span style="font-size:11px;color:#888;">영향 키워드: ${g.kws.map(esc).join(', ')}</span></li>`
+  ).join('');
+  return `<div style="margin-top:14px;padding:12px 14px;background:#fff5f0;border:1px solid #f0c8b8;border-radius:8px;">
+    <div style="font-size:12px;font-weight:700;color:#7a2020;margin-bottom:8px;">⚠ 수집 중 발생한 에러 (${LAST_ERRORS.length}건)</div>
+    <ul style="margin:0;padding-left:18px;font-size:12px;color:#555;line-height:1.6;">${items}</ul>
+    <div style="margin-top:8px;font-size:11px;color:#888;">자세한 내용은 F12 → Console 탭에서 확인하세요.</div>
+  </div>`;
+}
+
+// ── Claude API 공통: tool_use로 JSON 강제 ──
+function getModelId() {
+  const sel = document.getElementById('model-select');
+  if (!sel) return 'claude-sonnet-4-6';
+  if (sel.value === '__custom__') {
+    const custom = document.getElementById('model-custom').value.trim();
+    return custom || 'claude-sonnet-4-6';
+  }
+  return sel.value;
+}
+
+function onModelChange() {
+  const sel = document.getElementById('model-select');
+  const customInput = document.getElementById('model-custom');
+  if (sel.value === '__custom__') {
+    customInput.style.display = 'block';
+    customInput.focus();
+  } else {
+    customInput.style.display = 'none';
+  }
+}
+
+function getSchemaForType(type) {
+  const sourceField = {
+    sourceSites: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          name: { type: 'string', description: '사이트명 또는 언론사명. 예: "법률신문", "대법원 판례속보", "법무법인 율촌"' },
+          url: { type: 'string', description: '해당 기사·판례·뉴스레터의 실제 URL. 확인된 경우에만 기재하고, 모르면 빈 문자열.' }
+        },
+        required: ['name', 'url']
+      },
+      description: '실제로 참조한 출처 목록. 지정 사이트에서 찾은 경우 해당 사이트명과 URL을, 그 외 사이트는 도메인·언론사명과 URL을 기재. 없으면 빈 배열.'
+    }
+  };
+  if (type === 'judgment') return {
+    name: 'submit_judgment',
+    description: '건설 법무 판례 요약을 구조화된 형식으로 제출합니다.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        title: { type: 'string', description: '사건 제목 (법원명 포함)' },
+        court: { type: 'string', description: '법원명' },
+        date: { type: 'string', description: '선고일 또는 기사 날짜' },
+        caseType: { type: 'string', description: '민사/형사/행정' },
+        caseNumber: { type: 'string', description: "사건번호 (예: '2023다12345', '2024도6789'). 기사에서 확인 불가하면 빈 문자열" },
+        facts: { type: 'string', description: '사실관계 요약 3~4문장' },
+        rule: { type: 'string', description: '관련 법령 및 조문' },
+        reason: { type: 'string', description: '판단근거 요약' },
+        result: { type: 'string', description: '판시결과' },
+        sentence: { type: 'string', description: '양형이유 (형사의 경우, 없으면 빈 문자열)' },
+        implications: { type: 'array', items: { type: 'string' }, description: '건설사 법무팀 시사점 (1~3개)' },
+        ...sourceField
+      },
+      required: ['title', 'facts', 'implications']
+    }
+  };
+  if (type === 'law') return {
+    name: 'submit_law',
+    description: '법령개정 요약을 구조화된 형식으로 제출합니다.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        title: { type: 'string', description: '법령명 및 개정 핵심 요약' },
+        dept: { type: 'string', description: '소관부처' },
+        effectDate: { type: 'string', description: "시행일 (모르면 '확인 필요')" },
+        layoutMode: {
+          type: 'string',
+          enum: ['compare', 'summary'],
+          description: "현행/개정 대비가 명확한 경우 'compare', 개정 내용이 설명형(조문 신설·해설 등)이어서 당초/변경 구분이 어려운 경우 'summary'"
+        },
+        compareItems: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              article: { type: 'string', description: "조문 번호 (예: '제38조 제2항', '제29조의2'). 확인된 경우만 기재, 모르면 빈 문자열." },
+              label: { type: 'string', description: "항목 제목 (예: '도급인 안전조치 의무', '처벌 기준')" },
+              current: { type: 'string', description: '현행(당초) 내용' },
+              revised: { type: 'string', description: '개정(변경) 내용' }
+            },
+            required: ['label', 'current', 'revised']
+          },
+          description: "layoutMode='compare'일 때 사용. 항목별 현행/개정 비교 (최대 4항목). article에 조문 번호 기재. 확실히 아는 내용만 채우고, 불확실하면 '확인 필요'로 표기."
+        },
+        summaryPoints: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              article: { type: 'string', description: "관련 조문 번호 (예: '제38조', '제29조의2 제1항'). 확인된 경우만 기재, 모르면 빈 문자열." },
+              heading: { type: 'string', description: '소제목' },
+              body: { type: 'string', description: '내용 2~4문장' }
+            },
+            required: ['heading', 'body']
+          },
+          description: "layoutMode='summary'일 때 사용. 핵심 내용을 항목별 소제목+본문으로 정리 (3~5항목). article에 관련 조문 번호 기재."
+        },
+        implications: { type: 'array', items: { type: 'string' }, description: '건설사 법무팀 시사점 (1~3개)' },
+        ...sourceField
+      },
+      required: ['title', 'layoutMode', 'implications']
+    }
+  };
+  return {
+    name: 'submit_news',
+    description: '건설 법무 기사 요약을 구조화된 형식으로 제출합니다.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        title: { type: 'string', description: '기사 핵심 제목' },
+        category: { type: 'string', description: '분야 (예: 건설안전/하도급/노동/환경)' },
+        source: { type: 'string', description: '언론사명' },
+        date: { type: 'string', description: '기사 날짜' },
+        content: { type: 'string', description: '핵심 내용 요약 3~5문장. 중요 수치·법령명은 [b]볼드[/b], 제도·기관명은 [u]밑줄[/u], 위험·주의사항은 [c]색상[/c] 마크업 포함' },
+        implication: { type: 'string', description: '건설사 법무팀 시사점 2줄 내외' },
+        ...sourceField
+      },
+      required: ['title', 'content', 'implication']
+    }
+  };
+}
+
+// Claude API 호출 — 웹검색 후 tool_use로 구조화 결과 반환
+// 웹검색은 멀티턴: 1차 응답에서 web_search 호출 → 결과를 메시지에 붙여 2차 호출 → submit tool 반환
+async function callClaudeWithTool(prompt, type, useWebSearch = true) {
+  const schema = getSchemaForType(type);
+  const webSearchTool = { type: 'web_search_20250305', name: 'web_search' };
+  const tools = useWebSearch ? [webSearchTool, schema] : [schema];
+  // 키는 서버에서 주입됩니다 — 브라우저는 자체 백엔드(/api/messages)로만 요청하므로
+  // x-api-key / anthropic-version / dangerous-direct-browser-access 헤더가 필요 없습니다.
+  const headers = {
+    'Content-Type': 'application/json'
+  };
+
+  // 웹검색에서 실제로 참조한 URL 수집
+  const collectedUrls = [];
+
+  let messages = [{ role: 'user', content: prompt }];
+
+  // 최대 6턴 (웹검색 반복 포함)
+  for (let turn = 0; turn < 6; turn++) {
+    const body = {
+      model: getModelId(),
+      max_tokens: 4000,
+      tools,
+      // 첫 턴: 웹검색 먼저 하도록 auto, 웹검색 없으면 submit 강제
+      tool_choice: (useWebSearch && turn === 0)
+        ? { type: 'auto' }
+        : { type: 'tool', name: schema.name },
+      messages
+    };
+
+    const res = await fetch('/api/messages', {
+      method: 'POST', headers, body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
+
+    const contentBlocks = data.content || [];
+
+    // submit tool이 왔으면 완료
+    const submitBlock = contentBlocks.find(c => c.type === 'tool_use' && c.name === schema.name);
+    if (submitBlock?.input) {
+      const obj = submitBlock.input;
+      obj.implications = Array.isArray(obj.implications) ? obj.implications : [];
+      obj.compareItems = Array.isArray(obj.compareItems) ? obj.compareItems : [];
+      obj.summaryPoints = Array.isArray(obj.summaryPoints) ? obj.summaryPoints : [];
+      // sourceSites 정리 + 웹검색에서 수집한 URL 보충
+      obj.sourceSites = Array.isArray(obj.sourceSites)
+        ? obj.sourceSites.map(s => typeof s === 'string' ? { name: s, url: '' } : s).filter(s => s && s.name)
+        : [];
+      // Claude가 url을 못 채운 항목에 collectedUrls에서 매칭
+      if (collectedUrls.length) {
+        obj.sourceSites = obj.sourceSites.map(site => {
+          if (site.url) return site;
+          const match = collectedUrls.find(u =>
+            u.url.includes(site.name.replace(/\s/g,'').toLowerCase()) ||
+            site.name.includes(u.name)
+          );
+          return match ? { ...site, url: match.url } : site;
+        });
+        // sourceSites가 비어있으면 collectedUrls로 채움
+        if (!obj.sourceSites.length) {
+          obj.sourceSites = collectedUrls.slice(0, 3);
+        }
+      }
+      return obj;
+    }
+
+    // 웹검색 tool_use 블록 처리
+    const searchBlocks = contentBlocks.filter(c => c.type === 'tool_use' && c.name === 'web_search');
+    if (!searchBlocks.length) {
+      // 검색도 submit도 없는 응답 → 강제로 submit 요청
+      messages = [...messages, { role: 'assistant', content: contentBlocks }];
+      useWebSearch = false; // 다음 턴엔 submit 강제
+      continue;
+    }
+
+    // 웹검색 결과를 다음 메시지에 추가 (멀티턴)
+    messages = [...messages, { role: 'assistant', content: contentBlocks }];
+    const toolResults = [];
+    for (const sb of searchBlocks) {
+      // 실제 웹검색 결과는 API가 서버사이드로 처리 — tool_result를 빈 값으로 전달하면 API가 채워줌
+      // 단, web_search는 server-side tool이라 tool_result 없이 다음 assistant 턴으로 자동 진행됨
+      // → tool_result 블록 없이 그냥 다음 user 메시지를 보내는 방식 사용
+      toolResults.push({
+        type: 'tool_result',
+        tool_use_id: sb.id,
+        content: '검색을 완료했습니다. 검색 결과를 바탕으로 요약을 작성하고 제출 도구를 호출하세요.'
+      });
+      // 쿼리 기록
+      if (sb.input?.query) {
+        console.log('[웹검색] 쿼리:', sb.input.query);
+      }
+    }
+    messages = [...messages, { role: 'user', content: toolResults }];
+    // 다음 턴에서 submit 강제
+    useWebSearch = false;
+  }
+
+  throw new Error('최대 턴 초과 — 응답을 받지 못했습니다');
+}
+
+// 출처 칩 렌더링 헬퍼 (클릭 시 URL 열기)
+function renderSourceChip(site, chipBg, icon) {
+  const rawName = typeof site === 'string' ? site : (site.name || '');
+  const name = esc(rawName);
+  const url = (typeof site === 'object' && site.url) ? site.url.trim() : '';
+  // URL이 없으면 사이트명으로 Google 검색 (최후 폴백) — 항상 클릭 가능
+  const finalUrl = url || (rawName ? `https://www.google.com/search?q=${encodeURIComponent(rawName)}` : '');
+  const isOriginalUrl = !!url;
+  const titleAttr = isOriginalUrl ? `${rawName} 원문 보기 (새 탭)` : `Google에서 "${rawName}" 검색`;
+  const arrow = isOriginalUrl ? '↗' : '🔍';
+  const opacity = isOriginalUrl ? '' : 'opacity:.78;';
+  if (finalUrl) {
+    return `<a href="${finalUrl}" target="_blank" rel="noopener"
+      class="ri-firm-chip ri-firm-chip-link"
+      style="background:${chipBg};text-decoration:none;cursor:pointer;${opacity}"
+      title="${esc(titleAttr)}"
+      onclick="event.stopPropagation();window.open('${finalUrl}','_blank');return false;"
+    >${icon} ${name} ${arrow}</a>`;
+  }
+  return `<span class="ri-firm-chip" style="background:${chipBg};">${icon} ${name}</span>`;
+}
+
+// 이메일용 출처 칩 (인라인 스타일)
+function emailSourceChip(site, bg, icon) {
+  const name = esc(typeof site === 'string' ? site : (site.name || ''));
+  const url = typeof site === 'object' && site.url ? site.url : '';
+  const base = `font-size:10px;padding:2px 9px;border-radius:10px;font-weight:700;color:#fff;background:${bg};`;
+  if (url) {
+    return `<a href="${esc(url)}" target="_blank" style="${base}text-decoration:none;">${icon} ${name} ↗</a>`;
+  }
+  return `<span style="${base}">${icon} ${name}</span>`;
+}
+
+// 지정 사이트 여부 판별
+const PRIORITY_SITE_NAMES = new Set([
+  '법률신문', '대법원 판례속보', '전국법원 주요판결', '국가법령정보센터', '대법원 종합법률정보', '법원도서관',
+  '세종', '광장', '율촌', '화우', '태평양', '지평', '김·장', '바른',
+  '법무법인 세종', '법무법인 광장', '법무법인 율촌', '법무법인 화우', '법무법인 태평양', '법무법인 지평', '법무법인 김·장', '법무법인 바른',
+  '대법원 언론보도판결',
+]);
+// ── 검색 기간 헬퍼 ──
+function getPeriodInfo() {
+  const el = document.getElementById('period-select');
+  const val = el ? el.value : '1y';
+  const labelMap = { '7d': '최근 7일', '1m': '최근 1개월', '3m': '최근 3개월', '6m': '최근 6개월', '1y': '최근 1년', '2y': '최근 2년' };
+  return { val, label: labelMap[val] || '최근 1년' };
+}
+
+function getPrioritySearchGuide(type) {
+  const { label } = getPeriodInfo();
+  const period = `${label} 이내 자료만 사용`;
+  if (type === 'judgment') return `우선검색: lawtimes.co.kr, scourt.go.kr. ${period}. 실제 존재 판례만, 사건번호 확인된 것만.`;
+  if (type === 'law') return `우선검색: shinkim.com, leeko.com, yulchon.com, hwawoo.com, bkl.co.kr, jipyong.com, kimchang.com, barunlaw.com 뉴스레터. 없으면 law.go.kr. ${period}.`;
+  return `우선검색: lawtimes.co.kr, scourt.go.kr. ${period}.`;
+}
+
+async function summarizeWithClaude(type, keyword, articles = [], sourceSites = []) {
+  const typeLabel = { judgment: '중요판례', law: '법령개정', news: '기사문' }[type];
+  const priorityGuide = getPrioritySearchGuide(type);
+  const { label: periodLabel } = getPeriodInfo();
+
+  const lawNote = type === 'law' ? `
+※ 법령개정 정리 시 주의사항:
+- 현행(당초)/개정(변경) 내용이 명확히 확인되면 layoutMode='compare'로 항목별 비교표를 작성하세요.
+- 조문 신설, 새로운 제도 도입, 해설형 내용처럼 당초/변경 구분이 어려운 경우 layoutMode='summary'로 항목별 소제목+설명 형식을 사용하세요.
+- 확실하지 않은 조문 내용은 추측하지 말고 '확인 필요'로 표기하세요.` : '';
+
+  const prompt = `건설사 법무팀 뉴스레터 작성. 키워드: "${keyword}", 유형: ${typeLabel}.
+${priorityGuide}${lawNote}
+웹검색 후 제출 도구를 호출하세요. 불확실한 내용은 "확인 필요" 표기.`;
+
+  const obj = await callClaudeWithTool(prompt, type, true); // 웹검색 활성화
+  obj._fromFallback = false;
+  obj._fromWebSearch = true;
+  obj._fromRSS = false;
+  if (!Array.isArray(obj.compareItems)) obj.compareItems = [];
+  if (!Array.isArray(obj.summaryPoints)) obj.summaryPoints = [];
+  return obj;
+}
+
+// RSS 기사를 Claude로 요약 (RSS 보충용)
+async function summarizeFromRSS(type, keyword, articles) {
+  const typeLabel = { judgment: '중요판례', law: '법령개정', news: '기사문' }[type];
+  const { label: periodLabel } = getPeriodInfo();
+  const lawNote = type === 'law' ? `
+layoutMode는 현행/개정 비교가 명확하면 'compare', 아니면 'summary'. 불확실한 조문은 '확인 필요'.` : '';
+
+  const articleText = articles.map((a, i) =>
+    `[${i+1}] 제목: ${a.title}\n출처: ${a.source || ''}\n날짜: ${a.pubDate || ''}\n링크: ${a.link || ''}\n내용: ${a.description || ''}`
+  ).join('\n\n');
+
+  const prompt = `당신은 건설사 법무팀 뉴스레터를 작성하는 법률 전문가입니다.
+아래는 "${keyword}" 키워드로 수집한 ${periodLabel} 이내의 뉴스 기사입니다.
+이 자료를 바탕으로 건설사 법무팀 관점에서 "${typeLabel}" 형식으로 요약해주세요.${lawNote}
+
+sourceSites에는 아래 기사의 출처 사이트명과 링크 URL을 정확히 기재하세요.
+
+--- 수집된 기사 ---
+${articleText}
+---
+
+제공된 도구를 호출하여 구조화된 요약을 제출하세요.`;
+
+  const obj = await callClaudeWithTool(prompt, type, false); // 웹검색 없이 RSS 기사 직접 요약
+  obj._fromFallback = false;
+  obj._fromWebSearch = false;
+  obj._fromRSS = true;
+  if (!Array.isArray(obj.compareItems)) obj.compareItems = [];
+  if (!Array.isArray(obj.summaryPoints)) obj.summaryPoints = [];
+
+  // RSS 원본 기사 링크를 sourceSites에 강제 적용
+  // Claude가 뭘 반환하든, RSS에서 확보한 실제 기사 URL을 우선 사용
+  const rssSourceSites = articles
+    .filter(a => a.link && a.link.trim())
+    .slice(0, 3)
+    .map(a => ({ name: a.source || safeHostname(a.link), url: a.link }));
+
+  if (rssSourceSites.length) {
+    // RSS 링크가 있으면 무조건 RSS 링크를 앞에 배치
+    // Claude가 추가한 sourceSites 중 URL 없는 것은 버리고, URL 있는 것만 뒤에 합침
+    const claudeWithUrl = (obj.sourceSites || []).filter(s => s.url && !rssSourceSites.some(r => r.url === s.url));
+    obj.sourceSites = [...rssSourceSites, ...claudeWithUrl];
+  } else if (!obj.sourceSites || !obj.sourceSites.length) {
+    obj.sourceSites = [];
+  }
+  return obj;
+}
+
+async function summarizeFromKnowledge(type, keyword) {
+  const typeLabel = { judgment: '중요판례', law: '법령개정', news: '기사문' }[type];
+  const lawNote = type === 'law' ? `
+※ layoutMode는 내용에 맞게 선택: 현행/개정 비교가 가능하면 'compare', 그렇지 않으면 'summary'.
+  확실하지 않은 조문은 추측하지 말고 '확인 필요'로 표기.` : '';
+  const prompt = `당신은 건설사 법무팀 뉴스레터를 작성하는 법률 전문가입니다.
+
+"${keyword}" 키워드와 관련된 건설업 "${typeLabel}" 내용을 작성해주세요.
+최근 동향 및 건설사에 중요한 내용 중심으로 작성하세요.
+모르는 사실은 추측하지 말고 일반적·교과서적 내용 위주로 작성하세요.${lawNote}
+
+제공된 도구를 호출하여 구조화된 요약을 제출하세요.`;
+
+  const obj = await callClaudeWithTool(prompt, type);
+  obj._fromFallback = true;
+  if (!Array.isArray(obj.compareItems)) obj.compareItems = [];
+  if (!Array.isArray(obj.summaryPoints)) obj.summaryPoints = [];
+  return obj;
+}
+
+// ── PROGRESS UI ──
+function buildProgress(j, l, n) {
+  const steps = [
+    { id: 'prog-j', icon: '⚖', label: `중요판례 수집 (${j.length}개 키워드)`, kws: j },
+    { id: 'prog-l', icon: '📋', label: `법령개정 수집 (${l.length}개 키워드)`, kws: l },
+    { id: 'prog-n', icon: '📰', label: `기사문 수집 (${n.length}개 키워드)`, kws: n },
+  ];
+  return `<div class="progress-box">
+    <div class="progress-title">📡 자료 수집 → ✨ AI 요약 진행 중...</div>
+    <div class="progress-steps">${steps.map(s => `
+      <div class="prog-step" id="${s.id}">
+        <div class="ps-icon ${s.kws.length ? 'waiting' : 'done'}">${s.kws.length ? '○' : '✓'}</div>
+        <span>${s.label}</span>
+        <span class="prog-msg" style="color:var(--muted);font-size:11px;margin-left:auto;"></span>
+      </div>`).join('')}
+    </div>
+    <div style="font-size:11px;color:var(--muted);margin-top:8px;">지정 사이트(법률신문·대법원·법무법인 뉴스레터 등) 우선 검색 → 부족하면 Google 뉴스 보충 → Claude AI 요약</div>
+    <div class="prog-bar-wrap"><div class="prog-bar" id="prog-bar" style="width:0%"></div></div>
+  </div>`;
+}
+function setProgStep(id, state, msg = '') {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const icon = el.querySelector('.ps-icon');
+  const msgEl = el.querySelector('.prog-msg');
+  icon.className = `ps-icon ${state}`;
+  icon.textContent = state === 'running' ? '●' : state === 'done' ? '✓' : '✗';
+  if (msgEl) msgEl.textContent = msg;
+}
+function updateProgBar(done, total) {
+  const bar = document.getElementById('prog-bar');
+  if (bar) bar.style.width = `${(done / total) * 100}%`;
+}
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// ── COUNTS ──
+function updateCounts() {
+  const sel = S.items.filter(i => i.selected).length;
+  document.getElementById('hs-total').textContent = S.items.length;
+  document.getElementById('hs-sel').textContent = sel;
+  document.getElementById('res-count').textContent = `(${S.items.length}건)`;
+  document.getElementById('fc-j').textContent = S.items.filter(i => i.type === 'judgment').length;
+  document.getElementById('fc-l').textContent = S.items.filter(i => i.type === 'law').length;
+  document.getElementById('fc-n').textContent = S.items.filter(i => i.type === 'news').length;
+}
+
+// ── FILTER ──
+function setFilter(f) {
+  S.filter = f;
+  ['all','judgment','law','news'].forEach(x => {
+    const b = document.getElementById('ft-' + x);
+    if (b) b.classList.toggle('active', x === f);
+  });
+  renderResults();
+}
+
+// ── RENDER ──
+function renderResults() {
+  const container = document.getElementById('results-list');
+  let visible = S.filter === 'all' ? S.items : S.items.filter(i => i.type === S.filter);
+
+  // 타입별 정렬: 지정사이트 → 인터넷(RSS) → AI자체생성 순
+  visible = [...visible].sort((a, b) => {
+    const score = item => {
+      if (item._fromFallback) return 2;
+      if (item._fromRSS) {
+        // 지정사이트 출처가 있으면 0, 일반RSS면 1
+        const hasPriority = Array.isArray(item.sourceSites) && item.sourceSites.some(s => s._prioritySite || PRIORITY_SITE_NAMES.has(s.name));
+        return hasPriority ? 0 : 1;
+      }
+      return 0;
+    };
+    // 같은 타입 내에서만 정렬 (all 뷰에서도 타입 순서 유지)
+    if (a.type !== b.type) return 0;
+    return score(a) - score(b);
+  });
+
+  if (visible.length === 0) {
+    container.innerHTML = `<div class="hint-box"><div class="hi">📭</div><h3>항목 없음</h3><p style="font-size:13px;color:var(--muted);">해당 유형의 항목이 없습니다.</p></div>`;
+    return;
+  }
+  container.innerHTML = visible.map((item, idx) => renderCard(item, idx + 1)).join('');
+}
+
+function renderCard(item, num) {
+  const badgeCls = { judgment: 'rib-j', law: 'rib-l', news: 'rib-n' }[item.type];
+  const typeLabel = { judgment: '판례', law: '법령', news: '기사' }[item.type];
+  const bodyOpen = !item.collapsed ? 'open' : '';
+  const isSelected = item.selected;
+  const isFallback = !!item._fromFallback;
+  const isRSSFallback = !!item._fromRSSFallback;
+
+  // 지정 사이트 목록은 전역 PRIORITY_SITE_NAMES 사용
+  const siteConfig = {
+    judgment: { bg: '#f0f3fa', border: '#b0bce0', labelColor: '#1a2744', chipBg: '#1a2744', otherChipBg: '#5a6a8a', icon: '🔍' },
+    law:      { bg: '#f0f7f3', border: '#c8e0d0', labelColor: '#2d5a3d', chipBg: '#2d5a3d', otherChipBg: '#6a9a7a', icon: '📚' },
+    news:     { bg: '#fdf5f0', border: '#e0bca8', labelColor: '#7a3030', chipBg: '#7a3030', otherChipBg: '#aa6060', icon: '📰' },
+  }[item.type] || { bg: '#f5f5f5', border: '#ccc', labelColor: '#555', chipBg: '#555', otherChipBg: '#888', icon: '🔍' };
+
+  let sourceBar = '';
+  if (item._fromFallback) {
+    const googleUrl = item.keyword ? `https://www.google.com/search?q=${encodeURIComponent(item.keyword)}` : '';
+    const googleChip = googleUrl
+      ? `<a href="${googleUrl}" target="_blank" rel="noopener" class="ri-firm-chip ri-firm-chip-link" style="background:#4a6a9a;text-decoration:none;opacity:.85;" title="Google에서 직접 검색" onclick="event.stopPropagation();">🔍 Google 검색 ↗</a>`
+      : '';
+    sourceBar = `<div class="ri-source-bar" style="background:#fff5f0;border-bottom-color:#f0c8b8;">
+      <span class="ri-source-label" style="color:#a63232;">📌 출처</span>
+      <span class="ri-firm-chip" style="background:#a63232;">⚠ AI 자체 생성 (검증 필요)</span>
+      ${googleChip}
+    </div>`;
+  } else if (item._fromRSS || item.sourceSites) {
+    const sites = Array.isArray(item.sourceSites) && item.sourceSites.length ? item.sourceSites : null;
+    let chips = '';
+    if (sites) {
+      chips = sites.map(s => {
+        const name = typeof s === 'string' ? s : (s.name || '');
+        const bg = PRIORITY_SITE_NAMES.has(name) ? siteConfig.chipBg : siteConfig.otherChipBg;
+        return renderSourceChip(s, bg, siteConfig.icon);
+      }).join('');
+    } else {
+      chips = `<span class="ri-firm-chip" style="background:${siteConfig.chipBg};">${siteConfig.icon} Google 뉴스 RSS</span>`;
+    }
+    sourceBar = `<div class="ri-source-bar" style="background:${siteConfig.bg};border-bottom-color:${siteConfig.border};">
+      <span class="ri-source-label" style="color:${siteConfig.labelColor};">📌 출처</span>
+      ${chips}
+    </div>`;
+  }
+
+  return `<div class="result-item${isSelected ? ' selected-item' : ''}" id="rc-${item.id}">
+    ${sourceBar}
+    <div class="ri-head" onclick="toggleCard(${item.id})">
+      <div class="ri-check-wrap"><input type="checkbox" class="ri-check" ${isSelected ? 'checked' : ''} onclick="event.stopPropagation();toggleSel(${item.id})"></div>
+      <span class="ri-badge ${badgeCls}">${typeLabel}</span>
+      <div class="ri-info">
+        <div class="ri-title">${esc(item.title || '(제목 없음)')}</div>
+        <div class="ri-meta">
+          ${item.keyword ? `<span class="ri-kw"># ${esc(item.keyword)}</span>` : ''}
+          ${(item.court || item.dept || item.source) ? `<span class="ri-tag">${esc(item.court || item.dept || item.source)}</span>` : ''}
+          ${(item.date || item.effectDate) ? `<span class="ri-tag">${esc(item.date || item.effectDate)}</span>` : ''}
+          ${isFallback ? `<span class="ri-fallback" title="수집 실패로 AI 학습 지식 기반 생성">⚠ AI 추정 — 검증 필요</span>` : ''}
+        </div>
+      </div>
+      <div class="ri-actions" onclick="event.stopPropagation()">
+        <button class="icon-btn" onclick="removeItem(${item.id})" title="삭제">🗑</button>
+        <span style="font-size:13px;color:#bbb;">${item.collapsed ? '▼' : '▲'}</span>
+      </div>
+    </div>
+    ${isFallback ? `<div class="fallback-banner">⚠ <div><strong>수집 실패로 폴백 모드</strong>가 사용되었습니다. 이 항목은 AI 학습 데이터에서 생성된 일반론이며, 실제 최신 사건·법령과 다를 수 있습니다. 발송 전 반드시 공식 출처에서 확인하세요.</div></div>` : ''}
+    <div class="ri-body ${bodyOpen}">${renderBody(item)}</div>
+  </div>`;
+}
+
+function renderBody(item) {
+  if (item.type === 'judgment') return `
+    <div class="ef"><label>제목/사건명</label><input type="text" value="${escA(item.title||'')}" oninput="setF(${item.id},'title',this.value)"></div>
+    <div class="ef-row">
+      <div class="ef"><label>법원</label><input type="text" value="${escA(item.court||'')}" oninput="setF(${item.id},'court',this.value)"></div>
+      <div class="ef"><label>선고일</label><input type="text" value="${escA(item.date||'')}" oninput="setF(${item.id},'date',this.value)"></div>
+      <div class="ef"><label>구분</label><input type="text" value="${escA(item.caseType||'')}" oninput="setF(${item.id},'caseType',this.value)"></div>
+    </div>
+    <div class="ef"><label>사건번호 <span style="font-weight:400;color:var(--muted);text-transform:none;">(예: 2023다12345)</span></label><input type="text" value="${escA(item.caseNumber||'')}" oninput="setF(${item.id},'caseNumber',this.value)" placeholder="기사 본문에서 확인 후 정확히 입력"></div>
+    ${['facts:사실관계','rule:관련규정','reason:판단근거','result:판시결과','sentence:양형이유'].map(f=>{const[k,l]=f.split(':');return `<div class="ef"><label>${l}</label><textarea oninput="setF(${item.id},'${k}',this.value)">${esc(item[k]||'')}</textarea></div>`;}).join('')}
+    ${renderImps(item, 'judgment')}`;
+  if (item.type === 'law') {
+    const mode = item.layoutMode || (item.compareItems && item.compareItems.length ? 'compare' : 'summary');
+    const compareSection = mode === 'compare'
+      ? `<label style="font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;">현행/개정 비교 (당초 → 변경)</label>
+        ${(item.compareItems||[]).map((c,i)=>`<div style="margin:6px 0 10px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+            ${c.article ? `<span style="font-size:11px;font-weight:700;color:var(--green);background:#e8f5ed;padding:2px 8px;border-radius:4px;">${esc(c.article)}</span>` : ''}
+            ${c.label ? `<div style="font-size:11px;font-weight:700;color:#555;">▸ ${esc(c.label)}</div>` : `<div style="font-size:10px;font-weight:700;color:var(--muted);">항목 ${i+1}</div>`}
+          </div>
+          <div class="ef"><label>조문 번호</label><input type="text" placeholder="예: 제38조 제2항" value="${escA(c.article||'')}" oninput="setCmp(${item.id},${i},'article',this.value)"></div>
+          <div class="cmp-grid"><div class="cmp-c cur"><span>당 초</span><textarea oninput="setCmp(${item.id},${i},'current',this.value)">${esc(c.current||'')}</textarea></div><div class="cmp-c rev"><span>변 경</span><textarea oninput="setCmp(${item.id},${i},'revised',this.value)">${esc(c.revised||'')}</textarea></div></div>
+        </div>`).join('')}`
+      : `<label style="font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;">핵심 내용 (설명형)</label>
+        ${(item.summaryPoints||[]).map((p,i)=>`<div style="margin:6px 0 10px;background:#f9f7f4;border-radius:6px;padding:10px 12px;">
+          ${p.article ? `<div style="margin-bottom:6px;"><span style="font-size:11px;font-weight:700;color:var(--green);background:#e8f5ed;padding:2px 8px;border-radius:4px;">${esc(p.article)}</span></div>` : ''}
+          <div class="ef"><label>조문 번호</label><input type="text" placeholder="예: 제38조" value="${escA(p.article||'')}" oninput="setSummaryPt(${item.id},${i},'article',this.value)"></div>
+          <div class="ef"><label>소제목</label><input type="text" value="${escA(p.heading||'')}" oninput="setSummaryPt(${item.id},${i},'heading',this.value)"></div>
+          <div class="ef"><label>내용</label><textarea oninput="setSummaryPt(${item.id},${i},'body',this.value)">${esc(p.body||'')}</textarea></div>
+        </div>`).join('')}`;
+    return `
+    <div class="ef"><label>법령명</label><input type="text" value="${escA(item.title||'')}" oninput="setF(${item.id},'title',this.value)"></div>
+    <div class="ef-row-2">
+      <div class="ef"><label>소관부처</label><input type="text" value="${escA(item.dept||'')}" oninput="setF(${item.id},'dept',this.value)"></div>
+      <div class="ef"><label>시행일</label><input type="text" value="${escA(item.effectDate||'')}" oninput="setF(${item.id},'effectDate',this.value)"></div>
+    </div>
+    <div style="margin-bottom:8px;display:flex;gap:10px;align-items:center;">
+      <label style="font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;flex-shrink:0;">표시 방식</label>
+      <select onchange="setLayoutMode(${item.id},this.value)" style="border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-size:12px;font-family:'Noto Sans KR',sans-serif;outline:none;background:#fff;">
+        <option value="compare" ${mode==='compare'?'selected':''}>⇄ 당초/변경 비교표</option>
+        <option value="summary" ${mode==='summary'?'selected':''}>📋 항목별 설명 (당초/변경 없음)</option>
+      </select>
+    </div>
+    ${compareSection}
+    ${renderImps(item,'law')}`;
+  }
+  if (item.type === 'news') return `
+    <div class="ef"><label>기사 제목</label><input type="text" value="${escA(item.title||'')}" oninput="setF(${item.id},'title',this.value)"></div>
+    <div class="ef-row">
+      <div class="ef"><label>분야</label><input type="text" value="${escA(item.category||'')}" oninput="setF(${item.id},'category',this.value)"></div>
+      <div class="ef"><label>출처</label><input type="text" value="${escA(item.source||'')}" oninput="setF(${item.id},'source',this.value)"></div>
+      <div class="ef"><label>날짜</label><input type="text" value="${escA(item.date||'')}" oninput="setF(${item.id},'date',this.value)"></div>
+    </div>
+    <div class="ef">
+      <label>기사 내용 <span style="font-size:10px;color:var(--muted);font-weight:400;">[b]볼드[/b] · [u]밑줄[/u] · [c]색상[/c]</span></label>
+      <textarea id="news-ta-${item.id}" oninput="setF(${item.id},'content',this.value)" style="min-height:80px;">${esc(item.content||'')}</textarea>
+    </div>
+    <div class="ef"><label>시사점</label><textarea oninput="setF(${item.id},'implication',this.value)">${esc(item.implication||'')}</textarea></div>`;
+  return '';
+}
+
+function renderImps(item, type) {
+  return `<div class="imp-area">
+    <label style="font-size:10px;font-weight:700;color:var(--gold2);letter-spacing:.4px;text-transform:uppercase;display:flex;align-items:center;gap:5px;margin-bottom:8px;">💡 당사 시사점</label>
+    ${(item.implications||[]).map((imp,i)=>`<div class="imp-row"><textarea oninput="setImp(${item.id},${i},this.value)">${esc(imp)}</textarea><button class="icon-btn" onclick="rmImp(${item.id},${i})">🗑</button></div>`).join('')}
+    <button class="btn btn-ghost btn-xs" style="border-style:dashed;color:var(--gold2);border-color:var(--gold2);width:100%;justify-content:center;" onclick="addImp(${item.id})">+ 시사점 추가</button>
+  </div>`;
+}
+
+// ── ITEM OPS ──
+function toggleCard(id) { const i=S.items.find(x=>x.id===id); if(i){i.collapsed=!i.collapsed; renderResults();} }
+function toggleSel(id) { const i=S.items.find(x=>x.id===id); if(i){i.selected=!i.selected; updateCounts(); renderResults();} }
+function removeItem(id) { S.items=S.items.filter(x=>x.id!==id); updateCounts(); renderResults(); }
+function setF(id,f,v) { const i=S.items.find(x=>x.id===id); if(i) i[f]=v; }
+function setImp(id,idx,v) { const i=S.items.find(x=>x.id===id); if(i&&i.implications) i.implications[idx]=v; }
+function addImp(id) { const i=S.items.find(x=>x.id===id); if(i){i.implications.push(''); renderResults();} }
+function rmImp(id,idx) { const i=S.items.find(x=>x.id===id); if(i&&i.implications.length>1){i.implications.splice(idx,1); renderResults();} }
+function setCmp(id,idx,f,v) { const i=S.items.find(x=>x.id===id); if(i&&i.compareItems&&i.compareItems[idx]) i.compareItems[idx][f]=v; }
+function setSummaryPt(id,idx,f,v) { const i=S.items.find(x=>x.id===id); if(i&&i.summaryPoints&&i.summaryPoints[idx]) i.summaryPoints[idx][f]=v; }
+function setLayoutMode(id,mode) {
+  const i=S.items.find(x=>x.id===id);
+  if(!i) return;
+  i.layoutMode=mode;
+  if(mode==='compare' && (!i.compareItems||!i.compareItems.length)) i.compareItems=[{label:'',current:'',revised:''}];
+  if(mode==='summary' && (!i.summaryPoints||!i.summaryPoints.length)) i.summaryPoints=[{heading:'',body:''}];
+  renderResults();
+}
+
+// ── RECIPIENTS ──
+// ── 수신자 영속화 (localStorage) ──
+const RECIP_KEY = 'legal_nl_recipients';
+
+function saveRecips() {
+  try {
+    localStorage.setItem(RECIP_KEY, JSON.stringify(S.recips));
+  } catch(e) { console.warn('수신자 저장 실패:', e); }
+}
+
+function loadRecips() {
+  try {
+    const raw = localStorage.getItem(RECIP_KEY);
+    if (!raw) return;
+    const arr = JSON.parse(raw);
+    if (Array.isArray(arr)) {
+      S.recips = arr;
+      // id 충돌 방지: 가장 큰 id 이후부터 idc 시작
+      const maxId = arr.reduce((m, r) => Math.max(m, r.id || 0), 0);
+      if (maxId >= idc) idc = maxId;
+    }
+  } catch(e) { console.warn('수신자 로드 실패:', e); }
+}
+
+function addRecip() {
+  const name=document.getElementById('r-name').value.trim();
+  const email=document.getElementById('r-email').value.trim();
+  const dept=document.getElementById('r-dept').value.trim();
+  if(!name||!email){showToast('이름과 이메일을 입력하세요','err');return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showToast('이메일 형식을 확인하세요','err');return;}
+  S.recips.push({id:++idc, name, email, dept, selected:true});
+  document.getElementById('r-name').value='';
+  document.getElementById('r-email').value='';
+  document.getElementById('r-dept').value='';
+  saveRecips();
+  renderRecips();
+}
+function toggleRecip(id) { const r=S.recips.find(x=>x.id===id); if(r){r.selected=!r.selected; saveRecips(); renderRecips();} }
+function rmRecip(id) { S.recips=S.recips.filter(x=>x.id!==id); saveRecips(); renderRecips(); }
+function clearAllRecips() {
+  if (!S.recips.length) return;
+  if (!confirm(`수신자 ${S.recips.length}명을 모두 삭제할까요?`)) return;
+  S.recips = [];
+  saveRecips();
+  renderRecips();
+  showToast('수신자가 모두 삭제되었습니다', 'ok');
+}
+function renderRecips() {
+  const total=S.recips.length, sel=S.recips.filter(r=>r.selected).length;
+  document.getElementById('rs-total').textContent=total;
+  document.getElementById('rs-sel').textContent=sel;
+  document.getElementById('rs-items').textContent=S.items.filter(i=>i.selected).length;
+  const c=document.getElementById('r-list-area');
+  if(!total){c.innerHTML=`<div class="hint-box"><div class="hi">👥</div><h3>수신자를 추가하세요</h3><p style="font-size:12px;color:var(--muted);margin-top:6px;">추가한 수신자는 브라우저에 저장되어 다음 방문 시에도 유지됩니다.</p></div>`;return;}
+  c.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-size:11px;color:var(--muted);">💾 ${total}명 저장됨 (브라우저 로컬)</div><button class="btn btn-ghost btn-xs" onclick="clearAllRecips()" style="color:#a63232;">전체 삭제</button></div><div class="r-list">${S.recips.map(r=>`<div class="r-item${r.selected?' active':''}"><input type="checkbox" class="r-check" ${r.selected?'checked':''} onchange="toggleRecip(${r.id})"><span class="r-name">${esc(r.name)}</span><span class="r-email">${esc(r.email)}</span>${r.dept?`<span class="r-dept">${esc(r.dept)}</span>`:''}<button class="icon-btn" onclick="rmRecip(${r.id})" style="margin-left:auto;">🗑</button></div>`).join('')}</div>`;
+}
+
+// ── SEND ──
+function renderSendSummary() {
+  const selItems=S.items.filter(i=>i.selected);
+  const selRecips=S.recips.filter(r=>r.selected);
+  const cnts={judgment:selItems.filter(i=>i.type==='judgment').length, law:selItems.filter(i=>i.type==='law').length, news:selItems.filter(i=>i.type==='news').length};
+  document.getElementById('send-summary').innerHTML=`
+    <div class="ss-card"><div class="n" style="color:var(--gold);">${selItems.length}</div><div class="l">발송 항목</div></div>
+    <div class="ss-card"><div class="n" style="color:var(--navy);">${cnts.judgment}</div><div class="l">판례</div></div>
+    <div class="ss-card"><div class="n" style="color:var(--green);">${cnts.law}</div><div class="l">법령</div></div>
+    <div class="ss-card"><div class="n" style="color:var(--red);">${cnts.news}</div><div class="l">기사</div></div>
+    <div class="ss-card"><div class="n" style="color:var(--green);">${selRecips.length}</div><div class="l">수신자</div></div>`;
+}
+
+function getDefaultSubject() {
+  const d = new Date();
+  return `[건설 법무 뉴스레터] ${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function genSendHTML() {
+  renderSendSummary();
+  const html = buildEmailHTML();
+  const selRecips = S.recips.filter(r=>r.selected);
+  const recipLine = selRecips.map(r => r.email).join('; ');
+  const recipNameLine = selRecips.map(r => `${r.name} <${r.email}>`).join('; ');
+  const hasRecips = selRecips.length > 0;
+  const defaultSubject = getDefaultSubject();
+
+  document.getElementById('send-html-area').innerHTML = `
+    <!-- 1단계: 메일 작성 도구 -->
+    <div class="send-block">
+      <div class="send-block-hdr">
+        <span class="send-step-no">1</span>
+        <div>
+          <div class="send-step-ttl">메일 작성창 열기</div>
+          <div class="send-step-desc">제목과 수신자가 자동으로 채워진 Outlook(또는 기본 메일앱) 작성창을 띄웁니다.</div>
+        </div>
+      </div>
+
+      <div class="send-fields">
+        <div class="send-field">
+          <label>📝 메일 제목</label>
+          <input type="text" id="mail-subject" value="${escA(defaultSubject)}" placeholder="제목을 입력하세요">
+        </div>
+        <div class="send-field">
+          <label>👥 수신자 (${selRecips.length}명)</label>
+          <textarea id="mail-recipients" rows="2" placeholder="이메일 주소가 ; 로 구분되어 표시됩니다">${esc(recipLine)}</textarea>
+          ${!hasRecips ? '<div class="send-warn">⚠ 2단계에서 수신자를 추가하거나 체크하지 않았습니다. 메일 작성창의 받는사람을 직접 입력해야 합니다.</div>' : ''}
+        </div>
+      </div>
+
+      <div class="send-btn-row">
+        <button class="btn btn-navy btn-sm" onclick="openMailto()">📧 Outlook(기본메일)로 보내기</button>
+        <button class="btn btn-ghost btn-sm" onclick="copyRecipients()">👥 수신자만 복사</button>
+        <span id="recip-ok" class="send-ok">✅ 수신자 복사됨</span>
+      </div>
+    </div>
+
+    <!-- 2단계: 본문 붙여넣기 -->
+    <div class="send-block">
+      <div class="send-block-hdr">
+        <span class="send-step-no">2</span>
+        <div>
+          <div class="send-step-ttl">본문 붙여넣기</div>
+          <div class="send-step-desc">1단계에서 열린 메일 작성창의 본문에 아래 내용을 붙여넣으세요.</div>
+        </div>
+      </div>
+
+      <div class="paste-method-tabs">
+        <button class="pm-tab active" onclick="switchPasteMethod('rich')">서식 그대로 (권장)</button>
+        <button class="pm-tab" onclick="switchPasteMethod('html')">HTML 소스</button>
+      </div>
+
+      <!-- 방식 A: 렌더링된 결과를 그대로 복사 (Outlook에 붙여넣으면 서식 유지) -->
+      <div id="paste-rich" class="paste-pane">
+        <div class="paste-desc">📋 아래 버튼을 누르면 <strong>렌더링된 뉴스레터가 서식 그대로</strong> 클립보드에 복사됩니다. Outlook 본문에 Ctrl+V로 붙여넣으면 색상·표·서식이 모두 살아 있어요.</div>
+        <button class="btn btn-green btn-sm" onclick="copyRichHTML()">📋 서식 그대로 복사하기</button>
+        <span id="rich-ok" class="send-ok">✅ 복사됨! 메일 본문에 Ctrl+V로 붙여넣으세요</span>
+        <div class="rich-preview-frame" id="rich-preview-frame">
+          <div class="rich-preview-label">미리보기</div>
+          <div id="rich-preview-content"></div>
+        </div>
+      </div>
+
+      <!-- 방식 B: 원시 HTML 복사 (소스 편집 모드용) -->
+      <div id="paste-html" class="paste-pane" style="display:none;">
+        <div class="paste-desc">💻 Gmail 등 일부 클라이언트는 <strong>HTML 소스 모드</strong>를 지원합니다. 아래 HTML 코드를 복사해서 소스 편집창에 붙여넣으세요.</div>
+        <div class="html-out-card">
+          <div class="html-out-bar">
+            <span>📧 HTML 소스</span>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <button class="btn btn-navy btn-sm" onclick="copyHTML()">복사</button>
+              <span id="copy-ok" style="display:none;font-size:12px;font-weight:700;color:var(--green);">✅ 복사됨!</span>
+            </div>
+          </div>
+          <textarea class="html-out-ta" id="html-ta" readonly>${esc(html)}</textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3단계: 안내 -->
+    <div class="send-guide">
+      <strong>📬 전체 흐름 요약</strong><br>
+      <strong>1.</strong> 위 "📧 Outlook(기본메일)로 보내기" 클릭 → 메일 작성창이 자동으로 뜸 (제목·수신자 입력됨)<br>
+      <strong>2.</strong> "📋 서식 그대로 복사하기" 클릭 → 메일 본문 영역에서 <kbd>Ctrl+V</kbd>로 붙여넣기<br>
+      <strong>3.</strong> 검토 후 메일 클라이언트에서 보내기<br>
+      <br>
+      💡 <strong>참고:</strong> mailto 링크는 본문에 긴 HTML을 못 담아서, 본문 붙여넣기는 별도 단계로 분리했습니다. Outlook이 안 열리면 PC의 기본 메일 프로그램이 무엇인지 확인해 보세요(Windows 설정 → 앱 → 기본 앱 → 메일).
+    </div>`;
+
+  // 미리보기 프레임에 렌더링된 뉴스레터 삽입 (간소화 버전)
+  const previewContent = document.getElementById('rich-preview-content');
+  if (previewContent) {
+    previewContent.innerHTML = html;
+  }
+}
+
+// 메일 작성창 열기 (mailto)
+function openMailto() {
+  const subject = document.getElementById('mail-subject')?.value || getDefaultSubject();
+  const recipients = (document.getElementById('mail-recipients')?.value || '').trim();
+  // mailto는 본문에 HTML이 안 들어가므로 짧은 안내문만 넣음
+  const body = `안녕하세요,
+
+이번 호 건설 법무 뉴스레터를 보내드립니다.
+(본문은 별도 복사한 뉴스레터를 이 자리에 붙여넣어 주세요.)
+
+${getTeamInfo().team} 드림`;
+
+  // mailto 인코딩: 받는 사람은 콤마/세미콜론 모두 허용되지만 메일 클라이언트에 따라 ; → , 변환 필요할 수 있음
+  const to = recipients.replace(/;/g, ',');
+  const mailto = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+  // mailto 링크는 너무 길면 일부 OS에서 잘림 (보통 2000자 한계)
+  if (mailto.length > 1800) {
+    showToast('수신자가 너무 많아 한 번에 못 엽니다. "수신자만 복사" 후 직접 붙여넣으세요.', 'err');
+    return;
+  }
+  window.location.href = mailto;
+}
+
+// 수신자 목록만 클립보드에 복사
+function copyRecipients() {
+  const txt = document.getElementById('mail-recipients')?.value || '';
+  if (!txt.trim()) { showToast('복사할 수신자가 없습니다', 'err'); return; }
+  navigator.clipboard.writeText(txt).then(() => {
+    const ok = document.getElementById('recip-ok');
+    if (ok) { ok.style.display = 'inline'; setTimeout(() => ok.style.display = 'none', 2500); }
+  }).catch(e => showToast('복사 실패: ' + e.message, 'err'));
+}
+
+// 렌더링된 HTML을 서식 그대로 클립보드에 복사 (Clipboard API의 text/html 타입 사용)
+async function copyRichHTML() {
+  const html = buildEmailHTML();
+  const plain = '건설 법무 뉴스레터 — 이 내용을 HTML 지원 메일 클라이언트에 붙여넣으세요.';
+  try {
+    if (navigator.clipboard && window.ClipboardItem) {
+      const item = new ClipboardItem({
+        'text/html': new Blob([html], { type: 'text/html' }),
+        'text/plain': new Blob([plain], { type: 'text/plain' })
+      });
+      await navigator.clipboard.write([item]);
+    } else {
+      // 폴백: 임시 contenteditable div에 HTML 넣고 execCommand('copy')
+      const div = document.createElement('div');
+      div.contentEditable = 'true';
+      div.innerHTML = html;
+      div.style.position = 'fixed';
+      div.style.left = '-9999px';
+      document.body.appendChild(div);
+      const range = document.createRange();
+      range.selectNodeContents(div);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      document.execCommand('copy');
+      sel.removeAllRanges();
+      document.body.removeChild(div);
+    }
+    const ok = document.getElementById('rich-ok');
+    if (ok) { ok.style.display = 'inline'; setTimeout(() => ok.style.display = 'none', 4000); }
+  } catch(e) {
+    console.error(e);
+    showToast('복사 실패: ' + (e.message || e), 'err');
+  }
+}
+
+// 붙여넣기 방식 탭 전환
+function switchPasteMethod(method) {
+  document.getElementById('paste-rich').style.display = method === 'rich' ? 'block' : 'none';
+  document.getElementById('paste-html').style.display = method === 'html' ? 'block' : 'none';
+  document.querySelectorAll('.pm-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.pm-tab').forEach(t => {
+    if (t.textContent.includes(method === 'rich' ? '서식' : 'HTML')) t.classList.add('active');
+  });
+}
+
+function copyHTML() {
+  const ta=document.getElementById('html-ta');
+  navigator.clipboard.writeText(ta.value).then(()=>{
+    const ok=document.getElementById('copy-ok');
+    ok.style.display='inline';
+    setTimeout(()=>ok.style.display='none', 2500);
+  });
+}
+
+// ── PREVIEW / EMAIL HTML BUILD ──
+function openPreview() {
+  document.getElementById('preview-body').innerHTML = buildPreviewHTML();
+  document.getElementById('preview-modal').classList.add('open');
+}
+function closePreview() { document.getElementById('preview-modal').classList.remove('open'); }
+
+function buildPreviewHTML() {
+  const selItems = S.items.filter(i => i.selected);
+  const groups = { judgment: selItems.filter(i=>i.type==='judgment'), law: selItems.filter(i=>i.type==='law'), news: selItems.filter(i=>i.type==='news') };
+  const dateStr = `${now.getFullYear()}년 ${now.getMonth()+1}월 ${now.getDate()}일`;
+  let h = `<div class="nl-hdr"><div class="nl-hdr-l"><div class="nlbadge">CONSTRUCTION LEGAL LETTER</div><h2>건설 법무 뉴스레터</h2><p>중요판례 · 법령개정 · 기사문</p></div><div class="nl-hdr-r">${dateStr}<br>${getTeamInfo().dept} · ${getTeamInfo().team}</div></div>`;
+  if(groups.judgment.length){h+=`<div class="nl-sec"><div class="nl-sec-ttl j">⚖ 중요판례</div>${groups.judgment.map((x,i)=>pvJudge(x,i+1)).join('')}</div>`;}
+  if(groups.law.length){h+=`<div class="nl-sec"><div class="nl-sec-ttl l">📋 법령개정</div>${groups.law.map((x,i)=>pvLaw(x,i+1)).join('')}</div>`;}
+  if(groups.news.length){h+=`<div class="nl-sec"><div class="nl-sec-ttl n">📰 기사문</div>${groups.news.map((x,i)=>pvNews(x,i+1)).join('')}</div>`;}
+  if(!selItems.length) h+=`<div class="hint-box"><div class="hi">📭</div><h3>선택된 항목이 없습니다</h3></div>`;
+  h+=`<div class="nl-ftr"><span>${getTeamInfo().team} · 내선 ${getTeamInfo().ext}</span><span>본 레터는 참고용입니다</span></div>`;
+  return h;
+}
+
+function pvJudge(item,num) {
+  const imps=(item.implications||[]).filter(Boolean);
+  const cn = item.caseNumber || '';
+  const cnTag = cn ? `<span class="nl-tag" style="background:#eef2fb;color:#1a2744;font-weight:600;">사건번호 ${esc(cn)}</span>` : '';
+  const searchQ = cn || (item.title || '');
+  const btnSearch = searchQ ? `<button class="nl-mini-btn" onclick="openCaseSearch('${escA(searchQ)}', '${escA(cn)}')">🔍 판례 원문 검색</button>` : '';
+
+  // 출처 줄
+  let sourceRowHtml = '';
+  if (item._fromFallback) {
+    sourceRowHtml = `<div class="nl-source-row" style="background:#fff5f0;border-left-color:#a63232;"><span class="nl-source-label" style="color:#a63232;">출처</span><span class="nl-firm-chip" style="background:#a63232;">⚠ AI 자체 생성</span></div>`;
+  } else if (item._fromRSS || item.sourceSites) {
+    const sites = Array.isArray(item.sourceSites) && item.sourceSites.length ? item.sourceSites : null;
+    const rssChip = item._fromRSS ? `<span class="nl-firm-chip" style="background:#6a6a8a;font-size:10px;">RSS 보충</span>` : '';
+    const chips = sites
+      ? sites.map(s => renderSourceChip(s, '#1a2744', '🔍')).join('') + rssChip
+      : `<span class="nl-firm-chip" style="background:#1a2744;">⚖ 법률신문·대법원 우선 검색</span>${rssChip}`;
+    sourceRowHtml = `<div class="nl-source-row" style="background:#f0f3fa;border-left-color:#1a2744;"><span class="nl-source-label" style="color:#1a2744;">출처</span>${chips}</div>`;
+  }
+
+  return `<div class="nl-card"><div class="nl-card-hd"><div class="nl-card-ttl">${num}. ${esc(item.title||'')}</div><div class="nl-card-tags">${item.court?`<span class="nl-tag ntj">${esc(item.court)}</span>`:''} ${item.date?`<span class="nl-tag ntd">${esc(item.date)}</span>`:''} ${item.caseType?`<span class="nl-tag" style="background:#fef4e0;color:#8a5a00;">${esc(item.caseType)}</span>`:''} ${cnTag} ${btnSearch}</div></div>
+  ${sourceRowHtml}
+  <div class="nl-card-bd">
+  ${item.facts?`<div class="nl-sub"><div class="nl-sub-lbl">사실관계</div><div class="nl-sub-txt">${esc(item.facts).replace(/\n/g,'<br>')}</div></div>`:''}
+  ${item.rule?`<div class="nl-sub"><div class="nl-sub-lbl">관련규정</div><div class="nl-sub-txt">${esc(item.rule).replace(/\n/g,'<br>')}</div></div>`:''}
+  ${item.reason?`<div class="nl-sub"><div class="nl-sub-lbl">판단근거</div><div class="nl-sub-txt">${esc(item.reason).replace(/\n/g,'<br>')}</div></div>`:''}
+  ${item.result?`<div class="nl-sub"><div class="nl-sub-lbl">판시결과</div><div class="nl-sub-txt">${esc(item.result).replace(/\n/g,'<br>')}</div></div>`:''}
+  ${imps.length?`<div class="nl-imp"><div class="nl-imp-lbl">▶ 당사 시사점</div>${imps.map(i=>`<div class="nl-imp-i">${esc(i)}</div>`).join('')}</div>`:''}
+  </div></div>`;
+}
+
+function pvLaw(item,num) {
+  const imps=(item.implications||[]).filter(Boolean);
+  const lawName = extractLawName(item.title || '');
+  const mode = item.layoutMode || (item.compareItems && item.compareItems.length ? 'compare' : 'summary');
+
+  // 출처 줄
+  let sourceRowHtml = '';
+  if (item._fromFallback) {
+    sourceRowHtml = `<div class="nl-source-row" style="background:#fff5f0;border-left-color:#a63232;"><span class="nl-source-label" style="color:#a63232;">출처</span><span class="nl-firm-chip" style="background:#a63232;">⚠ AI 자체 생성</span></div>`;
+  } else if (item._fromRSS || item.sourceSites) {
+    const sites = Array.isArray(item.sourceSites) && item.sourceSites.length ? item.sourceSites : null;
+    const rssChip = item._fromRSS ? `<span class="nl-firm-chip" style="background:#6a6a8a;font-size:10px;">RSS 보충</span>` : '';
+    const chips = sites
+      ? sites.map(s => renderSourceChip(s, '#2d5a3d', '📚')).join('') + rssChip
+      : `<span class="nl-firm-chip">📚 법무법인 뉴스레터 우선 검색</span>${rssChip}`;
+    sourceRowHtml = `<div class="nl-source-row"><span class="nl-source-label">출처</span>${chips}</div>`;
+  }
+
+  // 본문 — 비교표 or 설명형
+  let bodyHtml = '';
+  if (mode === 'compare' && (item.compareItems||[]).filter(c=>c.current||c.revised).length) {
+    bodyHtml = (item.compareItems||[]).filter(c=>c.current||c.revised).map((c,i)=>`
+      <div style="margin-bottom:10px;">
+        ${c.label ? `<div style="font-size:10px;font-weight:700;color:#555;margin-bottom:4px;">▸ ${esc(c.label)}</div>` : `<div style="font-size:10px;font-weight:700;color:#777;margin-bottom:3px;">항목 ${i+1}</div>`}
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+          <button class="nl-mini-btn nl-mini-btn-sm" onclick="openLawSearch('${escA(lawName)}','${escA((c.current||c.revised||'').substring(0,40))}')">📖 조문 확인</button>
+        </div>
+        <div class="nl-cmp">
+          <div class="nl-cc c"><div class="lbl">당 초</div>${esc(c.current||'').replace(/\n/g,'<br>')}</div>
+          <div class="nl-cc r"><div class="lbl">변 경</div>${esc(c.revised||'').replace(/\n/g,'<br>')}</div>
+        </div>
+      </div>`).join('');
+  } else {
+    // summary 모드: 항목별 소제목+내용
+    const pts = (item.summaryPoints||[]).filter(p=>p.heading||p.body);
+    if (pts.length) {
+      bodyHtml = pts.map(p=>`
+        <div style="margin-bottom:8px;">
+          ${p.heading ? `<div class="nl-sub-lbl">${esc(p.heading)}</div>` : ''}
+          <div class="nl-sub-txt">${esc(p.body||'').replace(/\n/g,'<br>')}</div>
+        </div>`).join('');
+    } else if ((item.compareItems||[]).length) {
+      // compareItems가 있지만 mode=summary인 경우 단순 나열
+      bodyHtml = (item.compareItems||[]).filter(c=>c.current||c.revised).map((c,i)=>`
+        <div class="nl-sub" style="margin-bottom:8px;">
+          ${c.label ? `<div class="nl-sub-lbl">${esc(c.label)}</div>` : ''}
+          <div class="nl-sub-txt">${esc((c.revised||c.current||'')).replace(/\n/g,'<br>')}</div>
+        </div>`).join('');
+    }
+  }
+
+  return `<div class="nl-card"><div class="nl-card-hd">
+    <div class="nl-card-ttl">${num}. ${esc(item.title||'')}</div>
+    <div class="nl-card-tags">
+      ${item.dept?`<span class="nl-tag ntl">${esc(item.dept)}</span>`:''}
+      ${item.effectDate?`<span class="nl-tag" style="background:#fef4e0;color:#8a5a00;">${esc(item.effectDate)} 시행</span>`:''}
+      ${lawName?`<button class="nl-mini-btn" onclick="openLawSearch('${escA(lawName)}','')">📖 법령 전문 보기</button>`:''}
+    </div>
+  </div>
+  ${sourceRowHtml}
+  <div class="nl-card-bd">
+    ${bodyHtml}
+    ${imps.length?`<div class="nl-imp"><div class="nl-imp-lbl">▶ 당사 시사점</div>${imps.map(i=>`<div class="nl-imp-i">${esc(i)}</div>`).join('')}</div>`:''}
+  </div></div>`;
+}
+
+// 법령 제목에서 법령명만 추출 (예: "중대재해처벌법 시행령 개정 — ..." -> "중대재해처벌법 시행령")
+function extractLawName(title) {
+  if (!title) return '';
+  // "법", "법률", "시행령", "시행규칙", "규정", "조례" 등으로 끝나는 단어 묶음 추출
+  const m = title.match(/^([가-힣A-Za-z·∙\s]+(?:법|법률|시행령|시행규칙|규정|조례|고시|훈령))/);
+  if (m) return m[1].trim();
+  // 패턴 매칭 실패 시 첫 단어 (구분자 ' - ', '—', '·', '|' 앞까지)
+  return title.split(/[\-—\|·:]/)[0].trim();
+}
+
+function pvNews(item,num) {
+  const content=parseHL(esc(item.content||''));
+
+  // 출처 줄
+  let sourceRowHtml = '';
+  if (item._fromFallback) {
+    sourceRowHtml = `<div class="nl-source-row" style="background:#fff5f0;border-left-color:#a63232;"><span class="nl-source-label" style="color:#a63232;">출처</span><span class="nl-firm-chip" style="background:#a63232;">⚠ AI 자체 생성</span></div>`;
+  } else if (item._fromRSS || item.sourceSites) {
+    const sites = Array.isArray(item.sourceSites) && item.sourceSites.length ? item.sourceSites : null;
+    const rssChip = item._fromRSS ? `<span class="nl-firm-chip" style="background:#6a6a8a;font-size:10px;">RSS 보충</span>` : '';
+    const chips = sites
+      ? sites.map(s => renderSourceChip(s, '#7a3030', '📰')).join('') + rssChip
+      : `<span class="nl-firm-chip" style="background:#7a3030;">📰 법률신문·대법원 언론보도 우선 검색</span>${rssChip}`;
+    sourceRowHtml = `<div class="nl-source-row" style="background:#fdf5f0;border-left-color:#7a3030;"><span class="nl-source-label" style="color:#7a3030;">출처</span>${chips}</div>`;
+  }
+
+  return `<div class="nl-card"><div class="nl-card-hd"><div class="nl-card-ttl">${num}. ${esc(item.title||'')}</div><div class="nl-card-tags">${item.category?`<span class="nl-tag ntn">${esc(item.category)}</span>`:''} ${item.source?`<span class="nl-tag ntd">${esc(item.source)}</span>`:''} ${item.date?`<span class="nl-tag ntd">${esc(item.date)}</span>`:''}</div></div>
+  ${sourceRowHtml}
+  <div class="nl-card-bd">
+  ${content?`<div class="news-body">${content}</div>`:''}
+  ${item.implication?`<div class="nl-nimp"><div class="nl-nimp-lbl">▶ 시사점</div><div class="nl-nimp-txt">${esc(item.implication).replace(/\n/g,'<br>')}</div></div>`:''}
+  </div></div>`;
+}
+
+function parseHL(t) {
+  return t.replace(/\[b\](.*?)\[\/b\]/g,'<span class="hb">$1</span>')
+          .replace(/\[u\](.*?)\[\/u\]/g,'<span class="hu">$1</span>')
+          .replace(/\[c\](.*?)\[\/c\]/g,'<span class="hc">$1</span>')
+          .replace(/\n/g,'<br>');
+}
+function parseHLEmail(t) {
+  return t.replace(/\[b\](.*?)\[\/b\]/g,'<strong>$1</strong>')
+          .replace(/\[u\](.*?)\[\/u\]/g,'<span style="text-decoration:underline;text-decoration-color:#c8a96e;">$1</span>')
+          .replace(/\[c\](.*?)\[\/c\]/g,'<span style="color:#c84a4a;font-weight:500;">$1</span>')
+          .replace(/\n/g,'<br>');
+}
+
+function buildEmailHTML() {
+  const selItems=S.items.filter(i=>i.selected);
+  const groups={judgment:selItems.filter(i=>i.type==='judgment'), law:selItems.filter(i=>i.type==='law'), news:selItems.filter(i=>i.type==='news')};
+  const dateStr=`${now.getFullYear()}년 ${now.getMonth()+1}월 ${now.getDate()}일`;
+  let secs='';
+  if(groups.judgment.length){secs+=`<div style="margin-top:18px;"><div style="font-size:14px;font-weight:700;color:#1a2744;border-bottom:2px solid #1a2744;padding-bottom:6px;margin-bottom:11px;">⚖ 중요판례</div>${groups.judgment.map((x,i)=>emailJ(x,i+1)).join('')}</div>`;}
+  if(groups.law.length){secs+=`<div style="margin-top:18px;"><div style="font-size:14px;font-weight:700;color:#2d5a3d;border-bottom:2px solid #2d5a3d;padding-bottom:6px;margin-bottom:11px;">📋 법령개정</div>${groups.law.map((x,i)=>emailL(x,i+1)).join('')}</div>`;}
+  if(groups.news.length){secs+=`<div style="margin-top:18px;"><div style="font-size:14px;font-weight:700;color:#7a3030;border-bottom:2px solid #7a3030;padding-bottom:6px;margin-bottom:11px;">📰 기사문</div>${groups.news.map((x,i)=>emailN(x,i+1)).join('')}</div>`;}
+  return `<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#f0ede4;font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;">
+<div style="max-width:680px;margin:20px auto;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,.08);">
+  <div style="background:#1a2744;padding:18px 22px;display:flex;justify-content:space-between;align-items:flex-end;">
+    <div><div style="background:#c8a96e;color:#fff;font-size:9px;font-weight:700;padding:2px 9px;border-radius:20px;letter-spacing:1px;display:inline-block;margin-bottom:5px;">CONSTRUCTION LEGAL LETTER</div><div style="font-size:17px;font-weight:700;color:#fff;">건설 법무 뉴스레터</div><div style="font-size:10px;color:#8fa3cc;margin-top:2px;">중요판례 · 법령개정 · 기사문</div></div>
+    <div style="font-size:10px;color:#8fa3cc;text-align:right;line-height:1.9;">${dateStr}<br>${getTeamInfo().dept} · ${getTeamInfo().team}</div>
+  </div>
+  <div style="padding:14px 18px;">${secs}</div>
+  <div style="background:#f7f4ef;border-top:1px solid #e5e0d8;padding:10px 18px;display:flex;justify-content:space-between;font-size:10px;color:#aaa;"><span>${getTeamInfo().team} · 내선 ${getTeamInfo().ext}</span><span>본 레터는 참고용입니다.</span></div>
+</div></body></html>`;
+}
+
+function emailJ(item,num){
+  const imps=(item.implications||[]).filter(Boolean);
+  const jSites = Array.isArray(item.sourceSites) && item.sourceSites.length ? item.sourceSites : null;
+  const srcTag = item._fromFallback ? '' : (item._fromRSS || item.sourceSites)
+    ? `<div style="margin:5px 0 8px;padding:5px 10px;background:#f0f3fa;border-radius:5px;border-left:3px solid #1a2744;font-size:11px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;"><span style="font-weight:700;color:#1a2744;flex-shrink:0;">📌 출처</span>${
+        jSites ? jSites.map(s => emailSourceChip(s, '#1a2744', '🔍')).join('')
+               : `<span style="background:#1a2744;color:#fff;font-size:10px;padding:2px 9px;border-radius:10px;font-weight:700;">⚖ 법률신문·대법원 우선 검색</span>`
+      }</div>`
+    : '';
+  return `<div style="border:1px solid #e5e0d8;border-radius:7px;overflow:hidden;margin-bottom:9px;"><div style="background:#f9f7f4;padding:9px 13px;"><div style="font-size:13px;font-weight:700;color:#1a2744;margin-bottom:3px;">${num}. ${esc(item.title||'')}</div><div>${item.court?`<span style="background:#e8ecf5;color:#1a2744;font-size:10px;padding:1px 7px;border-radius:8px;font-weight:500;margin-right:3px;">${esc(item.court)}</span>`:''} ${item.date?`<span style="background:#f0f0ec;color:#666;font-size:10px;padding:1px 7px;border-radius:8px;font-weight:500;">${esc(item.date)}</span>`:''}</div></div>${srcTag}<div style="padding:11px 13px;">${item.facts?`<div style="margin-bottom:7px;"><div style="font-size:9px;font-weight:700;color:#888;letter-spacing:.4px;text-transform:uppercase;margin-bottom:2px;">사실관계</div><div style="font-size:11.5px;color:#444;line-height:1.75;">${esc(item.facts).replace(/\n/g,'<br>')}</div></div>`:''} ${item.reason?`<div style="margin-bottom:7px;"><div style="font-size:9px;font-weight:700;color:#888;letter-spacing:.4px;text-transform:uppercase;margin-bottom:2px;">판단근거</div><div style="font-size:11.5px;color:#444;line-height:1.75;">${esc(item.reason).replace(/\n/g,'<br>')}</div></div>`:''} ${item.result?`<div style="margin-bottom:7px;"><div style="font-size:9px;font-weight:700;color:#888;letter-spacing:.4px;text-transform:uppercase;margin-bottom:2px;">판시결과</div><div style="font-size:11.5px;color:#444;line-height:1.75;">${esc(item.result).replace(/\n/g,'<br>')}</div></div>`:''} ${imps.length?`<div style="background:#fffbf3;border:1px solid #e8dfc8;border-radius:5px;padding:8px 11px;margin-top:7px;"><div style="font-size:9px;font-weight:700;color:#c8a96e;margin-bottom:4px;">▶ 당사 시사점</div>${imps.map(i=>`<div style="font-size:11px;color:#555;line-height:1.7;">• ${esc(i)}</div>`).join('')}</div>`:''}</div></div>`;
+}
+function emailL(item,num){
+  const imps=(item.implications||[]).filter(Boolean);
+  const mode = item.layoutMode || (item.compareItems && item.compareItems.length ? 'compare' : 'summary');
+  const lawSites = Array.isArray(item.sourceSites) && item.sourceSites.length ? item.sourceSites : null;
+  const firmTag = item._fromFallback ? '' : (item._fromRSS || item.sourceSites)
+    ? `<div style="margin:5px 0 8px;padding:5px 10px;background:#f0f7f3;border-radius:5px;border-left:3px solid #2d5a3d;font-size:11px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;"><span style="font-weight:700;color:#2d5a3d;flex-shrink:0;">📌 출처</span>${
+        lawSites ? lawSites.map(s => emailSourceChip(s, '#2d5a3d', '📚')).join('')
+                 : `<span style="background:#2d5a3d;color:#fff;font-size:10px;padding:2px 9px;border-radius:10px;font-weight:700;">📚 법무법인 뉴스레터 우선 검색</span>`
+      }</div>`
+    : '';
+
+  let contentHtml = '';
+  if (mode === 'compare' && (item.compareItems||[]).filter(c=>c.current||c.revised).length) {
+    contentHtml = (item.compareItems||[]).filter(c=>c.current||c.revised).map((c,i)=>`
+      <div style="margin-bottom:8px;">
+        ${c.label ? `<div style="font-size:10px;font-weight:700;color:#555;margin-bottom:3px;">▸ ${esc(c.label)}</div>` : `<div style="font-size:9px;font-weight:700;color:#888;margin-bottom:2px;">항목 ${i+1}</div>`}
+        <table style="width:100%;border-collapse:collapse;">
+          <tr>
+            <td style="width:50%;padding:7px 9px;background:#f5f5f0;border-left:3px solid #aaa;border-radius:4px;font-size:11px;color:#444;line-height:1.7;vertical-align:top;">
+              <div style="font-size:9px;font-weight:700;color:#888;margin-bottom:2px;">당 초</div>${esc(c.current||'').replace(/\n/g,'<br>')}
+            </td>
+            <td style="width:4px;"></td>
+            <td style="width:50%;padding:7px 9px;background:#f0f7f2;border-left:3px solid #2d8a5a;border-radius:4px;font-size:11px;color:#444;line-height:1.7;vertical-align:top;">
+              <div style="font-size:9px;font-weight:700;color:#2d8a5a;margin-bottom:2px;">변 경</div>${esc(c.revised||'').replace(/\n/g,'<br>')}
+            </td>
+          </tr>
+        </table>
+      </div>`).join('');
+  } else {
+    // summary 모드: 소제목 + 내용
+    const pts = (item.summaryPoints||[]).filter(p=>p.heading||p.body);
+    contentHtml = pts.length
+      ? pts.map(p=>`<div style="margin-bottom:7px;"><div style="font-size:9px;font-weight:700;color:#2d5a3d;letter-spacing:.3px;text-transform:uppercase;margin-bottom:2px;">${esc(p.heading||'')}</div><div style="font-size:11px;color:#444;line-height:1.75;">${esc(p.body||'').replace(/\n/g,'<br>')}</div></div>`).join('')
+      : (item.compareItems||[]).filter(c=>c.current||c.revised).map((c)=>`<div style="margin-bottom:7px;"><div style="font-size:11px;color:#444;line-height:1.75;">${esc(c.revised||c.current||'').replace(/\n/g,'<br>')}</div></div>`).join('');
+  }
+
+  return `<div style="border:1px solid #e5e0d8;border-radius:7px;overflow:hidden;margin-bottom:9px;">
+    <div style="background:#f9f7f4;padding:9px 13px;">
+      <div style="font-size:13px;font-weight:700;color:#1a2744;margin-bottom:3px;">${num}. ${esc(item.title||'')}</div>
+      <div>${item.dept?`<span style="background:#e8f5ed;color:#2d5a3d;font-size:10px;padding:1px 7px;border-radius:8px;font-weight:500;margin-right:3px;">${esc(item.dept)}</span>`:''} ${item.effectDate?`<span style="background:#fef4e0;color:#8a5a00;font-size:10px;padding:1px 7px;border-radius:8px;font-weight:500;margin-right:3px;">${esc(item.effectDate)} 시행</span>`:''}</div>
+    </div>
+    ${firmTag}
+    <div style="padding:11px 13px;">
+      ${contentHtml}
+      ${imps.length?`<div style="background:#fffbf3;border:1px solid #e8dfc8;border-radius:5px;padding:8px 11px;margin-top:7px;"><div style="font-size:9px;font-weight:700;color:#c8a96e;margin-bottom:4px;">▶ 당사 시사점</div>${imps.map(i=>`<div style="font-size:11px;color:#555;line-height:1.7;">• ${esc(i)}</div>`).join('')}</div>`:''}
+    </div>
+  </div>`;
+}
+function emailN(item,num){
+  const c=parseHLEmail(esc(item.content||''));
+  const newsSites = Array.isArray(item.sourceSites) && item.sourceSites.length ? item.sourceSites : null;
+  const srcTag = item._fromFallback ? '' : (item._fromRSS || item.sourceSites)
+    ? `<div style="margin:5px 0 8px;padding:5px 10px;background:#fdf5f0;border-radius:5px;border-left:3px solid #7a3030;font-size:11px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;"><span style="font-weight:700;color:#7a3030;flex-shrink:0;">📌 출처</span>${
+        newsSites ? newsSites.map(s => emailSourceChip(s, '#7a3030', '📰')).join('')
+                  : `<span style="background:#7a3030;color:#fff;font-size:10px;padding:2px 9px;border-radius:10px;font-weight:700;">📰 법률신문·대법원 언론보도 우선 검색</span>`
+      }</div>`
+    : '';
+  return `<div style="border:1px solid #e5e0d8;border-radius:7px;overflow:hidden;margin-bottom:9px;"><div style="background:#f9f7f4;padding:9px 13px;"><div style="font-size:13px;font-weight:700;color:#1a2744;margin-bottom:3px;">${num}. ${esc(item.title||'')}</div><div>${item.category?`<span style="background:#fdf0f0;color:#7a3030;font-size:10px;padding:1px 7px;border-radius:8px;font-weight:500;margin-right:3px;">${esc(item.category)}</span>`:''} ${item.source?`<span style="background:#f0f0ec;color:#666;font-size:10px;padding:1px 7px;border-radius:8px;font-weight:500;margin-right:3px;">${esc(item.source)}</span>`:''} ${item.date?`<span style="background:#f0f0ec;color:#666;font-size:10px;padding:1px 7px;border-radius:8px;font-weight:500;">${esc(item.date)}</span>`:''}</div></div>${srcTag}<div style="padding:11px 13px;">${c?`<div style="font-size:11.5px;color:#444;line-height:1.85;">${c}</div>`:''} ${item.implication?`<div style="background:#faf9f5;border:1px solid #e0ddd6;border-radius:5px;padding:8px 11px;margin-top:8px;"><div style="font-size:9px;font-weight:700;color:#c8a96e;margin-bottom:2px;">▶ 시사점</div><div style="font-size:11px;color:#555;line-height:1.75;">${esc(item.implication).replace(/\n/g,'<br>')}</div></div>`:''}</div></div>`;
+}
+// ── 판례 원문 검색 (별도 창) ──
+function openCaseSearch(query, caseNumber) {
+  const q = caseNumber || query;
+  const sites = [
+    {
+      name: '케이스노트',
+      url: `https://casenote.kr/search/?q=${encodeURIComponent(q)}`,
+      desc: '무료 판례 검색. 사건번호·키워드 검색 모두 강력. 가장 먼저 권장.',
+      tag: '추천',
+      tagColor: '#c8a96e'
+    },
+    {
+      name: '대법원 종합법률정보',
+      url: `https://glaw.scourt.go.kr/wsjo/intesrch/sjo022.do?menuId=1&jjcKwd=${encodeURIComponent(q)}`,
+      desc: '대법원 공식 사이트. 판결 원문 PDF 다운로드 가능.',
+      tag: '공식',
+      tagColor: '#1a2744'
+    },
+    {
+      name: '국가법령정보센터 (판례)',
+      url: `https://www.law.go.kr/precSc.do?menuId=7&query=${encodeURIComponent(q)}`,
+      desc: '법령·판례 통합 검색. 관련 법령과 함께 보기 좋음.',
+      tag: '공식',
+      tagColor: '#1a2744'
+    },
+    {
+      name: '구글 검색',
+      url: `https://www.google.com/search?q=${encodeURIComponent(q + ' 판례')}`,
+      desc: '언론기사·블로그 등 다양한 자료 검색.',
+      tag: '폭넓게',
+      tagColor: '#888'
+    }
+  ];
+  openSearchWindow({
+    title: '판례 원문 검색',
+    icon: '⚖',
+    headerColor: '#1a2744',
+    accentColor: '#c8a96e',
+    query: q,
+    queryLabel: '검색어',
+    note: '⚠ AI가 추정한 사건번호일 수 있습니다. 아래 검색 결과로 실재 여부를 반드시 확인하세요.',
+    noteBg: '#fffbf3',
+    noteBorder: '#e8dfc8',
+    noteColor: '#7a5a00',
+    sites: sites
+  });
+}
+
+// ── 법령 조문 확인 (별도 창) ──
+function openLawSearch(lawName, snippet) {
+  const q = lawName || snippet || '';
+  if (!q) { showToast('검색할 법령명이 없습니다', 'err'); return; }
+  const sites = [
+    {
+      name: '국가법령정보센터 (법령)',
+      url: `https://www.law.go.kr/lsSc.do?menuId=1&query=${encodeURIComponent(q)}`,
+      desc: '대한민국 법령 공식 사이트. 조문·시행일·개정이유 확인. 가장 먼저 권장.',
+      tag: '공식·추천',
+      tagColor: '#2d5a3d'
+    },
+    {
+      name: '국가법령정보센터 (행정규칙)',
+      url: `https://www.law.go.kr/admRulSc.do?menuId=5&query=${encodeURIComponent(q)}`,
+      desc: '고시·훈령·예규 등 행정규칙 검색.',
+      tag: '행정규칙',
+      tagColor: '#2d5a3d'
+    },
+    {
+      name: '법제처 입법예고',
+      url: `https://opinion.lawmaking.go.kr/gcom/ogLmPp?lmPpSeq=&srhTitle=${encodeURIComponent(q)}`,
+      desc: '시행 전 입법예고 단계 법령 확인. 개정 동향 파악.',
+      tag: '입법예고',
+      tagColor: '#888'
+    },
+    {
+      name: '구글 검색',
+      url: `https://www.google.com/search?q=${encodeURIComponent(q + ' 조문')}`,
+      desc: '해설·뉴스 등 부가 자료 검색.',
+      tag: '폭넓게',
+      tagColor: '#888'
+    }
+  ];
+  openSearchWindow({
+    title: '법령 조문 확인',
+    icon: '📖',
+    headerColor: '#2d5a3d',
+    accentColor: '#a8d4b8',
+    query: q,
+    queryLabel: '법령',
+    extraInfo: snippet ? `관련 구절: "${snippet}"` : '',
+    note: '⚠ AI가 요약한 개정내용이 부정확할 수 있습니다. 좌측 국가법령정보센터에서 조문 원문을 직접 확인하세요.',
+    noteBg: '#f0f7f2',
+    noteBorder: '#c8e0d2',
+    noteColor: '#1a4a2d',
+    sites: sites
+  });
+}
+
+// 공통: 검색 사이트 카드 모음을 별도 창에 띄우기 (iframe 안 씀, 새 탭으로 열림)
+function openSearchWindow(cfg) {
+  const cards = cfg.sites.map((s, i) => `
+    <a class="src-card${i===0?' primary':''}" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">
+      <div class="src-tag" style="background:${s.tagColor};">${esc(s.tag)}</div>
+      <div class="src-name">${esc(s.name)} <span class="src-arrow">↗</span></div>
+      <div class="src-desc">${esc(s.desc)}</div>
+    </a>`).join('');
+
+  const html = `<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><title>${esc(cfg.icon)} ${esc(cfg.title)}: ${esc(cfg.query)}</title>
+<style>
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:#f5f3ee;min-height:100vh;color:#333;}
+.hdr{background:${cfg.headerColor};color:#fff;padding:20px 28px;}
+.hdr h1{margin:0 0 4px;font-size:18px;font-weight:600;display:flex;align-items:center;gap:8px;}
+.hdr .q{font-size:13px;color:${cfg.accentColor};}
+.hdr .q strong{color:#fff;font-weight:600;}
+.hdr .extra{font-size:12px;color:${cfg.accentColor};margin-top:4px;opacity:.9;}
+.note{background:${cfg.noteBg};border-left:3px solid ${cfg.noteBorder};padding:11px 18px;font-size:12px;color:${cfg.noteColor};line-height:1.6;}
+.container{padding:24px 28px;max-width:900px;margin:0 auto;}
+.intro{font-size:12px;color:#888;margin-bottom:16px;line-height:1.6;}
+.intro strong{color:${cfg.headerColor};}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.src-card{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #e5e0d8;border-radius:10px;padding:18px 20px;transition:all .15s;position:relative;}
+.src-card:hover{border-color:${cfg.headerColor};box-shadow:0 4px 14px rgba(0,0,0,.08);transform:translateY(-2px);}
+.src-card.primary{border-color:${cfg.headerColor};border-width:2px;background:linear-gradient(135deg,#fff 0%,#fafaf6 100%);}
+.src-tag{position:absolute;top:14px;right:14px;font-size:9.5px;font-weight:600;color:#fff;padding:2.5px 9px;border-radius:12px;letter-spacing:.3px;}
+.src-name{font-size:15px;font-weight:600;color:${cfg.headerColor};margin-bottom:6px;padding-right:60px;}
+.src-arrow{font-size:11px;color:#999;font-weight:400;margin-left:4px;}
+.src-card:hover .src-arrow{color:${cfg.headerColor};}
+.src-desc{font-size:11.5px;color:#777;line-height:1.65;}
+.tip{margin-top:22px;padding:14px 18px;background:#fff;border-radius:8px;font-size:11.5px;color:#666;line-height:1.7;border:1px dashed #d0c8b8;}
+.tip strong{color:${cfg.headerColor};}
+@media (max-width:680px){.grid{grid-template-columns:1fr;}}
+</style></head><body>
+<div class="hdr">
+  <h1>${esc(cfg.icon)} ${esc(cfg.title)}</h1>
+  <div class="q">${esc(cfg.queryLabel)}: <strong>${esc(cfg.query)}</strong></div>
+  ${cfg.extraInfo ? `<div class="extra">💡 ${esc(cfg.extraInfo)}</div>` : ''}
+</div>
+<div class="note">${esc(cfg.note)}</div>
+<div class="container">
+  <div class="intro">아래 검색 사이트 중 원하는 곳을 클릭하면 <strong>새 탭에서 열립니다</strong>. 추천 사이트(첫 번째)부터 시도해 보세요.</div>
+  <div class="grid">${cards}</div>
+  <div class="tip">💡 <strong>팁:</strong> 사이트마다 검색 결과가 다를 수 있어요. 한 곳에서 결과가 없으면 다른 곳도 시도해 보세요. AI가 만든 정보(특히 사건번호·시행일)는 실재하지 않을 수 있으니 반드시 공식 출처에서 교차 확인이 필요합니다.</div>
+</div>
+</body></html>`;
+
+  const w = window.open('', '_blank', 'width=1000,height=720');
+  if (!w) { showToast('팝업이 차단되었습니다. 브라우저 주소창에서 팝업 허용 후 다시 시도하세요.', 'err'); return; }
+  w.document.write(html);
+  w.document.close();
+}
+
+// ── PPT 다운로드 ──
+async function downloadPPT() {
+  if (typeof PptxGenJS === 'undefined') {
+    showToast('PPT 라이브러리 로드 실패 — 인터넷 연결을 확인하세요', 'err');
+    return;
+  }
+  const selItems = S.items.filter(i => i.selected);
+  if (!selItems.length) { showToast('선택된 항목이 없습니다', 'err'); return; }
+
+  showToast('📊 PPT 생성 중...', '');
+  const pptx = new PptxGenJS();
+  pptx.author = '건설 법무팀';
+  pptx.company = 'Construction Legal Letter';
+  pptx.title = '건설 법무 뉴스레터';
+  pptx.layout = 'LAYOUT_WIDE';
+
+  const dateStr = `${now.getFullYear()}년 ${now.getMonth()+1}월 ${now.getDate()}일`;
+  const groups = {
+    judgment: selItems.filter(i=>i.type==='judgment'),
+    law: selItems.filter(i=>i.type==='law'),
+    news: selItems.filter(i=>i.type==='news')
+  };
+  const C = {
+    navy:'1A2744', navyL:'253660', gold:'C8A96E', goldL:'E8D4A8',
+    cream:'F5F3EE', white:'FFFFFF', text:'2A2A2A', muted:'7A7A7A',
+    law:'2D5A3D', lawL:'E8F2EC', news:'7A3030', newsL:'F5E8E8',
+    judgeL:'E8EDF5', curr:'888888', currBg:'F5F5F0', rev:'1E6B42', revBg:'E8F5EE',
+    impBg:'FFFBF3', impBdr:'E8DFC8', accentLine:'C8A96E'
+  };
+  const FF = '맑은 고딕';
+
+  function addSlideChrome(s, accentColor, label, idx, total, tag) {
+    s.addShape('rect', { x:0, y:0, w:13.33, h:0.75, fill:{color:accentColor} });
+    s.addShape('rect', { x:0, y:0, w:0.06, h:0.75, fill:{color:C.gold} });
+    s.addShape('rect', { x:0.22, y:0.15, w:1.1, h:0.42, fill:{color:'00000030'} });
+    s.addText(`${idx+1}/${total}`, { x:0.22, y:0.15, w:1.1, h:0.42, fontSize:13, color:C.white, bold:true, fontFace:FF, align:'center', valign:'middle' });
+    s.addText(label, { x:1.5, y:0.18, w:8, h:0.38, fontSize:14, color:C.gold, bold:true, fontFace:FF });
+    s.addText(tag, { x:9.5, y:0.18, w:3.6, h:0.38, fontSize:11, color:C.white, align:'right', fontFace:FF, italic:true });
+    s.addShape('rect', { x:0, y:7.38, w:13.33, h:0.12, fill:{color:accentColor} });
+    s.addShape('rect', { x:0, y:7.38, w:4.0, h:0.12, fill:{color:C.gold} });
+    s.addText(getTeamInfo().dept + ' · ' + getTeamInfo().team, { x:0.3, y:7.42, w:6, h:0.2, fontSize:8, color:C.white, fontFace:FF });
+    s.addText(dateStr, { x:7, y:7.42, w:6, h:0.2, fontSize:8, color:C.white, align:'right', fontFace:FF });
+  }
+
+  function addImplications(s, imps, startY) {
+    if (!imps.length) return;
+    s.addShape('rect', { x:0.35, y:startY, w:12.63, h:0.04, fill:{color:C.gold} });
+    s.addShape('rect', { x:0.35, y:startY+0.04, w:12.63, h:1.28, fill:{color:C.impBg}, line:{color:C.impBdr, width:0.5} });
+    s.addText('▶ 당사 시사점', { x:0.5, y:startY+0.1, w:12, h:0.28, fontSize:10.5, color:C.gold, bold:true, fontFace:FF });
+    s.addText(imps.map(t=>`• ${t}`).join('\n'), { x:0.5, y:startY+0.4, w:12.3, h:0.86, fontSize:10.5, color:C.text, fontFace:FF, valign:'top', fit:'shrink' });
+  }
+
+  // 표지
+  let s = pptx.addSlide();
+  s.background = { color: C.navy };
+  s.addShape('rect', { x:9.5, y:0, w:3.83, h:7.5, fill:{color:C.navyL}, line:{color:'00000000'} });
+  s.addShape('rect', { x:10.2, y:0, w:3.13, h:7.5, fill:{color:'1E2E50'}, line:{color:'00000000'} });
+  s.addShape('rect', { x:0.5, y:2.1, w:3.5, h:0.04, fill:{color:C.gold} });
+  s.addShape('rect', { x:0.5, y:5.6, w:3.5, h:0.04, fill:{color:C.gold} });
+  s.addShape('rect', { x:0.5, y:1.55, w:3.6, h:0.42, fill:{color:C.gold} });
+  s.addText('CONSTRUCTION LEGAL LETTER', { x:0.5, y:1.55, w:3.6, h:0.42, fontSize:9, color:C.navy, bold:true, align:'center', charSpacing:2, fontFace:FF, valign:'middle' });
+  s.addText('건설 법무', { x:0.5, y:2.25, w:9, h:0.9, fontSize:52, color:C.white, bold:true, fontFace:FF });
+  s.addText('뉴스레터', { x:0.5, y:3.1, w:9, h:0.9, fontSize:52, color:C.gold, bold:true, fontFace:FF });
+  s.addText('중요판례 · 법령개정 · 기사문', { x:0.5, y:4.15, w:9, h:0.4, fontSize:16, color:'8FA3CC', fontFace:FF });
+  s.addText(dateStr, { x:0.5, y:4.8, w:9, h:0.38, fontSize:15, color:C.gold, fontFace:FF });
+  s.addShape('rect', { x:0.5, y:5.35, w:7.5, h:0.5, fill:{color:'00000040'} });
+  s.addText(`판례 ${groups.judgment.length}건    법령 ${groups.law.length}건    기사 ${groups.news.length}건`, { x:0.5, y:5.35, w:7.5, h:0.5, fontSize:14, color:C.white, align:'center', valign:'middle', fontFace:FF });
+  s.addText(getTeamInfo().dept + ' · ' + getTeamInfo().team, { x:0.5, y:6.8, w:7.5, h:0.3, fontSize:11, color:'8FA3CC', fontFace:FF });
+
+  // 판례
+  groups.judgment.forEach((item, idx) => {
+    s = pptx.addSlide();
+    s.background = { color: C.cream };
+    addSlideChrome(s, C.navy, '⚖ 중요판례', idx, groups.judgment.length, item.caseType || '판례');
+    s.addShape('rect', { x:0.35, y:0.88, w:12.63, h:0.04, fill:{color:C.gold} });
+    s.addText(item.title || '(제목 없음)', { x:0.35, y:0.95, w:12.6, h:0.72, fontSize:20, color:C.navy, bold:true, fontFace:FF, valign:'top' });
+    const jMeta = [item.court, item.date, item.caseNumber ? `사건번호 ${item.caseNumber}` : ''].filter(Boolean).join('  ·  ');
+    s.addText(jMeta, { x:0.35, y:1.72, w:12.6, h:0.3, fontSize:10.5, color:C.muted, fontFace:FF, italic:true });
+    const sections = [
+      { label:'사실관계', text:item.facts,  bg:'F7F5F1' },
+      { label:'관련규정', text:item.rule,   bg:'F0F3FA' },
+      { label:'판단근거', text:item.reason, bg:'F7F5F1' },
+      { label:'판시결과', text:item.result, bg:'EEF5EE' },
+    ].filter(x => x.text);
+    const jImps = (item.implications||[]).filter(Boolean);
+    const jStartY = 2.08, jEndY = jImps.length ? 5.85 : 7.3;
+    const jSlotH = sections.length ? (jEndY - jStartY) / sections.length : 0;
+    sections.forEach((sec, i) => {
+      const y = jStartY + i * jSlotH;
+      s.addShape('rect', { x:0.35, y, w:0.06, h:jSlotH-0.1, fill:{color:C.gold} });
+      s.addShape('rect', { x:0.41, y, w:12.57, h:jSlotH-0.1, fill:{color:sec.bg}, line:{color:'E5E0D8', width:0.3} });
+      s.addText(sec.label, { x:0.55, y:y+0.06, w:2.5, h:0.24, fontSize:9.5, color:C.gold, bold:true, fontFace:FF });
+      s.addText(sec.text, { x:0.55, y:y+0.32, w:12.2, h:jSlotH-0.48, fontSize:10.5, color:C.text, fontFace:FF, valign:'top', fit:'shrink' });
+    });
+    addImplications(s, jImps, 5.9);
+  });
+
+  // 법령
+  groups.law.forEach((item, idx) => {
+    s = pptx.addSlide();
+    s.background = { color: C.cream };
+    addSlideChrome(s, C.law, '📋 법령개정', idx, groups.law.length, item.dept || '법령');
+    s.addShape('rect', { x:0.35, y:0.88, w:12.63, h:0.04, fill:{color:C.gold} });
+    s.addText(item.title || '(제목 없음)', { x:0.35, y:0.95, w:12.6, h:0.72, fontSize:20, color:C.navy, bold:true, fontFace:FF, valign:'top' });
+    const lMeta = [item.dept, item.effectDate ? `시행: ${item.effectDate}` : ''].filter(Boolean).join('  ·  ');
+    s.addText(lMeta, { x:0.35, y:1.72, w:12.6, h:0.3, fontSize:10.5, color:C.muted, fontFace:FF, italic:true });
+    const lMode = item.layoutMode || (item.compareItems&&item.compareItems.length ? 'compare' : 'summary');
+    const lImps = (item.implications||[]).filter(Boolean);
+    const lImpY = 6.1;
+    if (lMode === 'compare') {
+      const cItems = (item.compareItems||[]).filter(c=>c.current||c.revised).slice(0,3);
+      if (cItems.length) {
+        const tblY = 2.1;
+        const availH = (lImps.length ? lImpY : 7.2) - tblY - 0.1;
+        const rowH = (availH - 0.42) / cItems.length;
+        s.addShape('rect', { x:0.35, y:tblY, w:6.2,  h:0.38, fill:{color:C.currBg}, line:{color:'DDDDDD', width:0.3} });
+        s.addShape('rect', { x:6.65, y:tblY, w:6.33, h:0.38, fill:{color:C.revBg},  line:{color:'C8E0D2', width:0.3} });
+        s.addText('현  행', { x:0.35, y:tblY, w:6.2,  h:0.38, fontSize:11, color:C.curr, bold:true, fontFace:FF, align:'center', valign:'middle' });
+        s.addText('개  정', { x:6.65, y:tblY, w:6.33, h:0.38, fontSize:11, color:C.rev,  bold:true, fontFace:FF, align:'center', valign:'middle' });
+        cItems.forEach((c, i) => {
+          const y = tblY + 0.42 + i * rowH;
+          const hasLabel = c.article || c.label;
+          if (hasLabel) {
+            s.addShape('rect', { x:0.35, y, w:12.63, h:0.25, fill:{color:'EDEDE8'} });
+            const labelTxt = [c.article, c.label].filter(Boolean).join('  ');
+            s.addText(`▸ ${labelTxt}`, { x:0.45, y, w:12.4, h:0.25, fontSize:9.5, color:'444444', bold:true, fontFace:FF, valign:'middle' });
+          }
+          const cellY = hasLabel ? y+0.25 : y;
+          const cellH = hasLabel ? rowH-0.28 : rowH-0.05;
+          s.addShape('rect', { x:0.35, y:cellY, w:6.2,  h:cellH, fill:{color:'FAFAF6'}, line:{color:'E0DDD8', width:0.3} });
+          s.addShape('rect', { x:6.65, y:cellY, w:6.33, h:cellH, fill:{color:'F2F9F4'}, line:{color:'C0DCC8', width:0.3} });
+          s.addText(c.current||'', { x:0.48, y:cellY+0.08, w:5.95, h:cellH-0.16, fontSize:10, color:C.text, fontFace:FF, valign:'top', fit:'shrink' });
+          s.addText(c.revised||'', { x:6.78, y:cellY+0.08, w:6.05, h:cellH-0.16, fontSize:10, color:C.text, fontFace:FF, valign:'top', fit:'shrink' });
+        });
+      }
+    } else {
+      const pts = (item.summaryPoints||[]).filter(p=>p.heading||p.body).slice(0,4);
+      if (pts.length) {
+        const lStartY = 2.1, lEndY = lImps.length ? lImpY-0.1 : 7.2;
+        const lSlotH = (lEndY-lStartY) / pts.length;
+        pts.forEach((p, i) => {
+          const y = lStartY + i * lSlotH;
+          s.addShape('rect', { x:0.35, y, w:0.06, h:lSlotH-0.1, fill:{color:C.law} });
+          s.addShape('rect', { x:0.41, y, w:12.57, h:lSlotH-0.1, fill:{color:'F7FAF7'}, line:{color:'C8DDD0', width:0.3} });
+          if (p.article) {
+            s.addShape('rect', { x:0.55, y:y+0.07, w:1.6, h:0.22, fill:{color:C.lawL} });
+            s.addText(p.article, { x:0.55, y:y+0.07, w:1.6, h:0.22, fontSize:9, color:C.law, bold:true, fontFace:FF, align:'center', valign:'middle' });
+          }
+          const hx = p.article ? 2.25 : 0.55;
+          if (p.heading) s.addText(p.heading, { x:hx, y:y+0.07, w:12.2-(hx-0.55), h:0.25, fontSize:10.5, color:C.law, bold:true, fontFace:FF });
+          s.addText(p.body||'', { x:0.55, y:y+0.35, w:12.2, h:lSlotH-0.5, fontSize:10.5, color:C.text, fontFace:FF, valign:'top', fit:'shrink' });
+        });
+      }
+    }
+    addImplications(s, lImps, lImpY);
+  });
+
+  // 기사
+  groups.news.forEach((item, idx) => {
+    s = pptx.addSlide();
+    s.background = { color: C.cream };
+    addSlideChrome(s, C.news, '📰 기사', idx, groups.news.length, item.category || '건설법무');
+    s.addShape('rect', { x:0.35, y:0.88, w:12.63, h:0.04, fill:{color:C.gold} });
+    s.addText(item.title || '(제목 없음)', { x:0.35, y:0.95, w:12.6, h:0.72, fontSize:20, color:C.navy, bold:true, fontFace:FF, valign:'top' });
+    const nMeta = [item.source, item.date].filter(Boolean).join('  ·  ');
+    s.addText(nMeta, { x:0.35, y:1.72, w:12.6, h:0.3, fontSize:10.5, color:C.muted, fontFace:FF, italic:true });
+    const nContent = (item.content||'').replace(/\[[buc]\]/g,'').replace(/\[\/[buc]\]/g,'');
+    s.addShape('rect', { x:0.35, y:2.1, w:0.06, h:4.0, fill:{color:C.news} });
+    s.addShape('rect', { x:0.41, y:2.1, w:12.57, h:4.0, fill:{color:'FBF7F7'}, line:{color:'E0C8C8', width:0.3} });
+    s.addText('핵심 내용', { x:0.55, y:2.18, w:12, h:0.28, fontSize:10.5, color:C.news, bold:true, fontFace:FF });
+    s.addText(nContent, { x:0.55, y:2.5, w:12.2, h:3.52, fontSize:11.5, color:C.text, fontFace:FF, valign:'top', fit:'shrink' });
+    if (item.implication) addImplications(s, [item.implication], 6.2);
+  });
+
+  // 마무리
+  s = pptx.addSlide();
+  s.background = { color: C.navy };
+  s.addShape('rect', { x:9.5, y:0, w:3.83, h:7.5, fill:{color:C.navyL}, line:{color:'00000000'} });
+  s.addShape('rect', { x:10.2, y:0, w:3.13, h:7.5, fill:{color:'1E2E50'}, line:{color:'00000000'} });
+  s.addShape('rect', { x:0.5, y:3.3, w:3.5, h:0.04, fill:{color:C.gold} });
+  s.addText('본 자료는 참고용입니다', { x:0.5, y:2.5, w:9, h:0.8, fontSize:34, color:C.white, bold:true, fontFace:FF });
+  s.addText('정확한 법률 자문이 필요한 경우 법무팀으로 문의해 주시기 바랍니다.', { x:0.5, y:3.5, w:9, h:0.5, fontSize:14, color:'8FA3CC', fontFace:FF });
+  s.addShape('rect', { x:0.5, y:5.0, w:4.5, h:0.55, fill:{color:C.gold} });
+  s.addText(getTeamInfo().dept + ' · ' + getTeamInfo().team + '  |  내선 ' + getTeamInfo().ext, { x:0.5, y:5.0, w:4.5, h:0.55, fontSize:13, color:C.navy, bold:true, align:'center', valign:'middle', fontFace:FF });
+
+  const fname = `건설법무뉴스레터_${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}.pptx`;
+  try {
+    console.log('[PPT] writeFile 시작...');
+    await pptx.writeFile({ fileName: fname });
+    console.log('[PPT] writeFile 완료');
+    showToast(`✅ PPT 다운로드 완료 (총 ${selItems.length + 2}장)`, 'ok');
+  } catch(e) {
+    console.error('[PPT] 오류 발생:', e);
+    console.error('[PPT] 오류 스택:', e.stack);
+    showToast('PPT 생성 실패 — F12 콘솔에서 [PPT] 오류 확인', 'err');
+    alert('PPT 오류 내용:\n' + (e.message || String(e)));
+  }
+}
+
+// ── NAV ──
+function goStep(n) {
+  [0,1,2].forEach(i=>{
+    document.getElementById('panel-'+i).classList.toggle('active',i===n);
+    document.getElementById('stab-'+i).classList.toggle('active',i===n);
+  });
+  if(n===2) renderSendSummary();
+  if(n===1){document.getElementById('rs-items').textContent=S.items.filter(i=>i.selected).length;}
+}
+
+// ── UTILS ──
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function escA(s){return String(s||'').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className=`toast show ${type}`;setTimeout(()=>t.className='toast',3000);}
+
+// INIT
+const now = new Date();
+document.getElementById('hdr-date').textContent = `${now.getFullYear()}년 ${now.getMonth()+1}월 ${now.getDate()}일`;
+loadRecips();
+updateRunInfo();
+renderResults();
+renderRecips();
+initApiKey();
+renderSiteChips();
+</script>
+</body>
+</html>
